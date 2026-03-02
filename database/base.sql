@@ -7,3 +7,6 @@ CREATE TABLE Aeroport (
     CodePays VARCHAR2(2)
 
 );
+CREATE TABLE Vol(
+    
+)

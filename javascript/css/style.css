@@ -53,15 +53,16 @@ body {
            order: 3;
    }
  
-  header, footer {
-   display: block;
-   text-align: center;
-   margin: 4px;
-   padding: 5px;
-   min-height: 150px;
-   border: 1px solid #eebb55;
-   border-radius: 7pt;
-   background: #ffeebb;
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around; 
+    background: #ffeebb;
+    height: 80px;
+   }
+   header>input{
+    margin: 2%;
+    padding: 0.5%;
    }
  
   header:first-letter, footer:first-letter{

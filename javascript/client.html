@@ -10,28 +10,28 @@
 
 <body>
   <header>
-    <h1>Choses à faire</h1>
+    <input id="all" type="button" value="Voir tous les vols" />
+    <h3>Tous les vols</h3>
+    <input id="add" type="button" value="Ajouter un vol" />
   </header>
 
   <div id='main'>
 
     <nav id="nav1">
-      <h2>Todo</h2>
-      <input id="buttonRecuperer" type="button" value="Recuperer les taches" />
-      <div id="taches">
+      <div id="vols">
       <script>
           document.addEventListener("DOMContentLoaded", function () {
-            const btnRecuperer = document.getElementById("buttonRecuperer");
-            const divTaches = document.getElementById("taches");
+            const btnVols = document.getElementById("all");
+            const divVols = document.getElementById("vols");
 
-            async function taches() {
-              let url = 'http://127.0.0.1:5000/todo/api/v1.0/tasks';
-              let response = await fetch(url);
-              if (response.ok) {
-                let data = await response.json();
-                divTaches.innerHTML = ""; 
+            async function afficherVols() {
+              //let url = 'http://127.0.0.1:5000/todo/api/v1.0/tasks';
+              //let response = await fetch(url);
+              //if (response.ok) {
+                //let data = await response.json();
+                divVols.innerHTML = ""; 
 
-                let ul = document.createElement("ul");
+                /*let ul = document.createElement("ul");
                 ul.className = "listeTaches";
 
                 data.tasks.forEach(task => {
@@ -42,16 +42,14 @@
                   ul.appendChild(li);
                 });
 
-                divTaches.appendChild(ul);
-              } else {
-                alert("HTTP-Error: " + response.status);
-              }
-            }
+                divVols.appendChild(ul);*/
+                console.log("Voir tous les vols appuyé")
+              } 
+            
 
-            if (btnRecuperer) {
-              btnRecuperer.addEventListener("click", taches);
-              document.getElementById("del").addEventListener("click",supprimer);
-              document.getElementById("add").addEventListener("click",creerTache);
+            if (btnVols) {
+              btnVols.addEventListener("click", afficherVols);
+              document.getElementById("add").addEventListener("click",creerVol);
             }
 
             async function afficherTache() {
@@ -136,30 +134,48 @@
               }
             }
 
-            async function creerTache() {
-              let zone = document.querySelector('#currenttask');
+            async function creerVol() {
+              let zone = document.querySelector('#vols');
               zone.innerHTML = "";
 
-              let titre = document.createElement("input");
-              titre.id="Titre";
-              titre.type = "text";
+              let colonneGauche =document.createElement("li");
+
+              let labelCompagnie = document.createElement("label");
+              labelCompagnie.textContent = "Compagnie : ";
+              let compagnie = document.createElement("input");
+              compagnie.id="Titre";
+              compagnie.type = "text";
+
+              let labelAD = document.createElement("label");
+              labelAD.textContent = "Aéroport départ/ IATA : ";
+              let aeroportD = document.createElement("input");
+              aeroportD.id="AD";
+              aeroportD.type = "text";
+
+              let labelVD = document.createElement("label");
+              labelVD.textContent = "Ville départ : ";
+              let VilleD = document.createElement("input");
+              VilleD.id="VD";
+              VilleD.type = "text";
+
+              let labelDD = document.createElement("label");
+              labelDD.textContent = "Date départ : ";
+              let DateD = document.createElement("input");
+              DateD.id="DD";
+              DateD.type = "date";
+
               
-              let description = document.createElement("input");
-              description.id="Description";
-              description.type = "text";
-              
-              let label = document.createElement("label");
-              label.textContent = "Tâche terminée : ";
-              let finie = document.createElement("input");
-                finie.id = "Done";
-                finie.type = "checkbox";
+
               
               let ajouter= document.createElement("input");
                 ajouter.id="ajouter";
                 ajouter.type="button";
                 ajouter.value="Ajouter la tâche";
                 ajouter.addEventListener("click", ajouterTache);
-              zone.append(titre,document.createElement("br"),description,document.createElement("br"),label,finie,document.createElement("br"), ajouter);
+
+              colonneGauche.append(labelCompagnie,compagnie,document.createElement("br"),labelAD, aeroportD,document.createElement("br"),
+            labelVD,VilleD,document.createElement("br"),labelDD,DateD,document.createElement("br"))
+              zone.append(colonneGauche,ajouter);
             }
 
             async function ajouterTache() {
@@ -186,14 +202,6 @@
       </div>
     </nav>
 
-    <article>
-      <h2>Editeur de Tâches</h2>
-      <section id="tools">
-        <img id="add" src="img/new.png" alt="Nouvelle chose à faire" />
-        <img id="del" src="img/delete.png" alt="Enlever cette tache" />
-      </section>
-      <section id="currenttask"></section>
-    </article>
   </div>
   <footer>
     <h4>©Département Informatique ⚛ IUT d'Orléans</h4>

@@ -1,0 +1,7 @@
+FROM gvenzl/oracle-xe:21-slim
+
+# Optionnel : scripts d'init auto (si tu ajoutes un dossier init)
+# COPY ./init-scripts /container-entrypoint-initdb.d
+
+EXPOSE 1521
+EXPOSE 5500

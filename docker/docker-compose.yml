@@ -1,0 +1,18 @@
+services:
+  oracle:
+    build: .
+    container_name: db
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+    environment:
+      ORACLE_PASSWORD: 123456
+      ORACLE_DATABASE: VOLS
+      APP_USER: user
+      APP_USER_PASSWORD: user
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+    restart: unless-stopped
+
+volumes:
+  oracle-data:

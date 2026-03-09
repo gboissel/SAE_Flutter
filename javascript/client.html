@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Vos tâches</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>Choses à faire</h1>
+  </header>
+
+  <div id='main'>
+
+    <nav id="nav1">
+      <h2>Todo</h2>
+      <input id="buttonRecuperer" type="button" value="Recuperer les taches" />
+      <div id="taches">
+      <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const btnRecuperer = document.getElementById("buttonRecuperer");
+            const divTaches = document.getElementById("taches");
+
+            async function taches() {
+              let url = 'http://127.0.0.1:5000/todo/api/v1.0/tasks';
+              let response = await fetch(url);
+              if (response.ok) {
+                let data = await response.json();
+                divTaches.innerHTML = ""; 
+
+                let ul = document.createElement("ul");
+                ul.className = "listeTaches";
+
+                data.tasks.forEach(task => {
+                  let li = document.createElement("li");
+                  li.textContent = task.title;
+                  li.dataset.uri = task.uri;
+                  li.addEventListener('click', afficherTache);
+                  ul.appendChild(li);
+                });
+
+                divTaches.appendChild(ul);
+              } else {
+                alert("HTTP-Error: " + response.status);
+              }
+            }
+
+            if (btnRecuperer) {
+              btnRecuperer.addEventListener("click", taches);
+              document.getElementById("del").addEventListener("click",supprimer);
+              document.getElementById("add").addEventListener("click",creerTache);
+            }
+
+            async function afficherTache() {
+              let url = this.dataset.uri;
+              let response = await fetch(url);
+              if (response.ok) {
+                let data = await response.json();
+                let task=data.task;
+                let zone = document.querySelector('#currenttask')
+                zone.innerHTML = "";
+
+                let titre = document.createElement("input");
+                titre.id="Titre";
+                titre.type = "text";
+                titre.value = task.title;
+
+                let description = document.createElement("input");
+                description.id="Description";
+                description.type = "text";
+                description.value = task.description;
+
+                let label = document.createElement("label");
+                label.textContent = "Tâche terminée : ";
+                let finie = document.createElement("input");
+                finie.id = "Done";
+                finie.type = "checkbox";
+                finie.checked = task.done;
+
+                let id = document.createElement("input");
+                id.id="ID";
+                id.type = "hidden";
+                id.value = this.dataset.uri;
+
+                let sauvegarder= document.createElement("input");
+                sauvegarder.id="sauvegarder";
+                sauvegarder.type="button";
+                sauvegarder.value="Sauvegarder les modifications";
+                sauvegarder.addEventListener("click", sauvegarderTache);
+                zone.append(titre,document.createElement("br"),description,document.createElement("br"),label,finie,document.createElement("br"),id, sauvegarder);
+            }
+            else {
+                alert("Impossible de récuperer la tâche");
+              }
+            }
+          
+
+            async function sauvegarderTache() {
+              let url = document.querySelector('#ID').value;
+              let titre = document.querySelector('#Titre').value;
+              let description = document.querySelector('#Description').value;
+              let finie = document.querySelector('#Done').checked;
+              let response = await fetch(url, { method: 'PUT', headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({ 
+                title: titre,
+               description : description,
+              done : finie })});
+                if (response.ok) {
+                  alert("Tâche mise à jour !");
+                  taches(); 
+              } else {
+                  alert("Erreur lors de la sauvegarde");
+              }
+            }
+
+
+            async function supprimer() {
+              let zone = document.querySelector('#currenttask');
+              let titre =document.querySelector('#Titre');
+              if( titre ){
+                let url = document.querySelector('#ID').value;
+                let response = await fetch(url, { method: 'DELETE', headers: {'Content-Type': 'application/json'}});
+                  if (response.ok) {
+                    alert("Tâche Supprimée !");
+                    zone.innerHTML = "";
+                    taches(); 
+                } else {
+                    alert("Erreur lors de la suppression");
+                }
+              }
+              else{
+                alert("Veuillez séléctionner une tâche d'abord");
+              }
+            }
+
+            async function creerTache() {
+              let zone = document.querySelector('#currenttask');
+              zone.innerHTML = "";
+
+              let titre = document.createElement("input");
+              titre.id="Titre";
+              titre.type = "text";
+              
+              let description = document.createElement("input");
+              description.id="Description";
+              description.type = "text";
+              
+              let label = document.createElement("label");
+              label.textContent = "Tâche terminée : ";
+              let finie = document.createElement("input");
+                finie.id = "Done";
+                finie.type = "checkbox";
+              
+              let ajouter= document.createElement("input");
+                ajouter.id="ajouter";
+                ajouter.type="button";
+                ajouter.value="Ajouter la tâche";
+                ajouter.addEventListener("click", ajouterTache);
+              zone.append(titre,document.createElement("br"),description,document.createElement("br"),label,finie,document.createElement("br"), ajouter);
+            }
+
+            async function ajouterTache() {
+              let zone = document.querySelector('#currenttask');
+                let url = 'http://127.0.0.1:5000/todo/api/v1.0/tasks';
+                let titre = document.querySelector('#Titre').value;
+                let description = document.querySelector('#Description').value;
+                let finie = document.querySelector('#Done').checked;
+                let response = await fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'} ,body: JSON.stringify({ 
+                title: titre,
+               description : description,
+              done : finie })});
+                  if (response.ok) {
+                    alert("Tâche ajoutée !");
+                    taches(); 
+                    zone.innerHTML="";
+                } else {
+                    alert("Erreur lors de l'ajout");
+                }
+            }
+          })
+
+        </script>
+      </div>
+    </nav>
+
+    <article>
+      <h2>Editeur de Tâches</h2>
+      <section id="tools">
+        <img id="add" src="img/new.png" alt="Nouvelle chose à faire" />
+        <img id="del" src="img/delete.png" alt="Enlever cette tache" />
+      </section>
+      <section id="currenttask"></section>
+    </article>
+  </div>
+  <footer>
+    <h4>©Département Informatique ⚛ IUT d'Orléans</h4>
+  </footer>
+
+</body>
+
+</html>

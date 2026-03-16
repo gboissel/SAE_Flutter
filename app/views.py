@@ -1,12 +1,9 @@
 from flask_restx import Resource, Namespace
 # creation du namespace, racine de tous les endpoints
+from .models import Aeroport,Vols
 ns = Namespace("api")
 
-@ns.route("/hello")
-class Hello(Resource):
-    def get(self):
-        return {"hello": "restx"}
 @ns.route("/vols")
-class Vols(Resource):
+class VolsCollections(Resource):
     def get(self):
-        return 
+        return Vols.query.all()

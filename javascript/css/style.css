@@ -1,6 +1,6 @@
 body {
         font: 24px Menlo, Helvetica;
-        background: #999999;
+        background: #ffffff;
 }
 
 #main {
@@ -25,9 +25,9 @@ h6 {
 #main>article {
         margin: 4px;
         padding: 5px;
-        border: 1px solid #cccc33;
+        border: 1px solid #ffffff;
         border-radius: 7pt;
-        background: #dddd88;
+        background: #ffffff;
         -webkit-flex: 3 1 60%;
         flex: 3 1 60%;
         -webkit-order: 2;
@@ -38,9 +38,9 @@ h6 {
         margin: 4px;
         padding: 5px;
         flex-wrap: nowrap;
-        border: 1px solid #8888bb;
+        border: 1px solid #ffffff;
         border-radius: 7pt;
-        background: #ccccff;
+        background: #ffffff;
         -webkit-flex: 1 6 20%;
         flex: 1 6 20%;
         -webkit-order: 1;
@@ -48,117 +48,109 @@ h6 {
 }
 
 #vols {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-    list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 40px;
+        list-style: none;
 }
 
 #vols li {
-    display: grid;
-    grid-template-columns: auto 1fr; 
-    align-items: center;
-    min-width: 350px;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        min-width: 350px;
 }
 
 /* On applique l'espace directement sur les labels et les inputs */
-#vols li label, 
+#vols li label,
 #vols li input {
-    margin-bottom: 15px; 
-    padding: 5px;
+        margin-bottom: 15px;
+        padding: 5px;
 }
 
 /* Le label a un petit espace à droite pour ne pas coller l'input */
 #vols li label {
-    margin-right: 15px;
-    font-weight: bold;
+        margin-right: 15px;
+        font-weight: bold;
 }
 
 /* Le bouton bien centré en dessous */
 #conteneur-bouton {
-    flex-basis: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+        flex-basis: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
 }
 
-#ajouter {
-    width: 200px;
-    padding: 10px;
+#ajouter, #modifer {
+        width: 200px;
+        padding: 10px;
 }
 
 #main>#nav2 {
         margin: 4px;
         padding: 5px;
-        border: 1px solid #8888bb;
+        border: 1px solid #ffffff;
         border-radius: 7pt;
-        background: #ccccff;
+        background: #ffffff;
         -webkit-flex: 1 6 20%;
         flex: 1 6 20%;
         -webkit-order: 3;
         order: 3;
 }
 
-header,footer {
+header {
         display: flex;
         align-items: center;
         justify-content: space-around;
-        background: #ffeebb;
+        background: #969494;
         height: 80px;
 }
 
-#Vol{
+.Vol {
         display: flex;
         margin: 15px;
+        flex-direction: row;
         align-items: center;
-        justify-content: center;
-        background: #ffbbd2;
+        justify-content: space-between;
+        background: #b4b4b4;
         height: 150px;
         width: 1000px;
 }
-.texteVol{
-        padding-left: 200px ;
+
+.texteVol {
+        padding-left: 50px;
 }
 
+.BoutonVol {
+        margin-top: 20px;
+        margin-left: 20px;
+        height: 40px;
+}
+#Modif{
+        background: #004aad;
+}
+
+#Supp{
+        background: #ff3131;
+}
+
+.ajout_modif{
+        background: #b4b4b4;
+}
 header>input {
         margin: 2%;
         padding: 0.5%;
 }
 
+.BoutonVol {
+
+        width: 100px;
+}
+
+
 header:first-letter,
 footer:first-letter {
         font-size: 160%;
-}
-
-/* Too narrow to support three columns */
-@media all and (max-width: 640px) {
-
-        header,
-        footer {
-                background: #ffeebb;
-                min-height: 60px;
-        }
-
-        #main,
-        #page {
-                -webkit-flex-flow: column;
-                flex-flow: column;
-                flex-direction: column;
-        }
-
-        #main>article,
-        #main>#nav1,
-        #main>#nav2 {
-                /* Return them to document order */
-                -webkit-order: 0;
-                order: 0;
-        }
-
-        #main>#nav1,
-        #main>#nav2,
-        header,
-        footer {
-                min-height: 150px;
-        }
 }

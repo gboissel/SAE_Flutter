@@ -35,26 +35,48 @@
               let ul = document.createElement("ul");
               ul.className = "listeVols";
 
-             for (let i = 0; i < 10; i++) {
+              for (let i = 0; i < 10; i++) {
                 let li = document.createElement("li");
-                li.id='Vol';
+                li.className = 'Vol';
+                li.id= i;
                 let ulVol = document.createElement("ul");
                 let liNumCompagnie = document.createElement("li");
                 liNumCompagnie.className = "textevol";
-                liNumCompagnie.textContent="N°445 - AIRFRANCE";
+                liNumCompagnie.textContent = "N°"+i+" - AIRFRANCE";
                 let liVilles = document.createElement("li");
                 liVilles.className = "textevol";
-                liVilles.textContent="Paris (FR) - Rio (BR)";
+                liVilles.textContent = "Paris (FR) - Rio (BR)";
                 let liDepart = document.createElement("li");
                 liDepart.className = "textevol";
-                liDepart.textContent="Départ : 10/07/2023 à 23h30, Charles de Gaulle, terminal 2E";
+                liDepart.textContent = "Départ : 10/07/2023 à 23h30, Charles de Gaulle, terminal 2E";
                 let liArrivee = document.createElement("li");
                 liArrivee.className = "textevol";
-                liArrivee.textContent="Arrivée :  11/07/2023 à 5h30, Antonio Carlos Jobim, terminal 1 ";
+                liArrivee.textContent = "Arrivée :  11/07/2023 à 5h30, Antonio Carlos Jobim, terminal 1 ";
+
+                let boutonSupp = document.createElement("input");
+                boutonSupp.id="Supp";
+                boutonSupp.className = "BoutonVol";
+                boutonSupp.type = "button";
+                boutonSupp.value = "Supp";
+                //boutonSupp.addEventListener("click", suppVol);
+
+                let boutonModif = document.createElement("input");
+                boutonModif.className = "BoutonVol";
+                boutonModif.id="Modif";
+                boutonModif.type = "button";
+                boutonModif.value = "Modif";
+                boutonModif.addEventListener("click", () => modifVol(i));
+
+                let divBoutons = document.createElement("div");
+                divBoutons.style.display = "flex"; 
+                divBoutons.style.flexShrink = "0"; 
 
 
-                ulVol.append(liNumCompagnie,liVilles,liDepart,liArrivee);
-                li.append( ulVol);
+                divBoutons.append(boutonSupp, boutonModif);
+
+                ulVol.append(liNumCompagnie, liVilles, liDepart, liArrivee);
+                li.append(ulVol, divBoutons);
+
                 ul.appendChild(li);
               }
               divVols.append(ul);
@@ -70,50 +92,164 @@
               document.getElementById("add").addEventListener("click", creerVol);
             }
 
-            /*async function afficherTache() {
-              let url = this.dataset.uri;
+            async function modifVol(numVol) {
+              /*let url = this.dataset.uri;
               let response = await fetch(url);
               if (response.ok) {
                 let data = await response.json();
                 let task = data.task;
                 let zone = document.querySelector('#currenttask')
-                zone.innerHTML = "";
-  
-                let titre = document.createElement("input");
-                titre.id = "Titre";
-                titre.type = "text";
-                titre.value = task.title;
-  
-                let description = document.createElement("input");
-                description.id = "Description";
-                description.type = "text";
-                description.value = task.description;
-  
-                let label = document.createElement("label");
-                label.textContent = "Tâche terminée : ";
-                let finie = document.createElement("input");
-                finie.id = "Done";
-                finie.type = "checkbox";
-                finie.checked = task.done;
-  
-                let id = document.createElement("input");
-                id.id = "ID";
-                id.type = "hidden";
-                id.value = this.dataset.uri;
-  
-                let sauvegarder = document.createElement("input");
-                sauvegarder.id = "sauvegarder";
-                sauvegarder.type = "button";
-                sauvegarder.value = "Sauvegarder les modifications";
-                sauvegarder.addEventListener("click", sauvegarderTache);
-                zone.append(titre,   description,   label, finie,   id, sauvegarder);
+                zone.innerHTML = "";*/
+              divVols.innerHTML= "";
+
+              titre.textContent = "Modifier un Vol";
+
+              let colonneGauche = document.createElement("li");
+
+              let labelCompagnie = document.createElement("label");
+              labelCompagnie.textContent = "Compagnie : ";
+              let compagnie = document.createElement("input");
+              compagnie.className ='ajout_modif';
+              compagnie.id = "Titre";
+              compagnie.type = "text";
+              compagnie.value = "AIRFRANCE";
+
+              let labelAD = document.createElement("label");
+              labelAD.textContent = "Aéroport départ/ IATA : ";
+              let aeroportD = document.createElement("input");
+              aeroportD.className ='ajout_modif';
+              aeroportD.id = "AD";
+              aeroportD.type = "text";
+              aeroportD.value = "Charles de Gaulle";
+
+              let labelVD = document.createElement("label");
+              labelVD.textContent = "Ville départ : ";
+              let VilleD = document.createElement("input");
+              VilleD.className ='ajout_modif';
+              VilleD.id = "VD";
+              VilleD.type = "text";
+              VilleD.value= "Paris";
+
+              let labelDD = document.createElement("label");
+              labelDD.textContent = "Date départ : ";
+              let DateD = document.createElement("input");
+              DateD.className ='ajout_modif';
+              DateD.id = "DD";
+              DateD.type = "date";
+              DateD.value = "2023-07-10";
+
+
+              let labelAA = document.createElement("label");
+              labelAA.textContent = "Aéroport arrivée/ IATA : ";
+              let aeroportA = document.createElement("input");
+              aeroportA.className ='ajout_modif';
+              aeroportA.id = "AA";
+              aeroportA.type = "text";
+              aeroportA.value= "Antonio Carlos Jobim";
+
+              let labelVA = document.createElement("label");
+              labelVA.textContent = "Ville arrivée : ";
+              let VilleA = document.createElement("input");
+              VilleA.className ='ajout_modif';
+              VilleA.id = "VA";
+              VilleA.type = "text";
+              VilleA.value = "Rio";
+
+              let labelDA = document.createElement("label");
+              labelDA.textContent = "Date arrivée : ";
+              let DateA = document.createElement("input");
+              DateA.className ='ajout_modif';
+              DateA.id = "DA";
+              DateA.type = "date";
+              DateA.value ="2023-07-11";
+
+              let colonneDroite = document.createElement("li");
+
+              let Labelnum = document.createElement("label");
+              Labelnum.textContent = "N° du vol : ";
+              let num = document.createElement("input");
+              num.className ='ajout_modif';
+              num.id = "Num";
+              num.type = "text";
+              num.value= numVol;
+
+              let labelPaysD = document.createElement("label");
+              labelPaysD.textContent = "Pays départ : ";
+              let PaysD = document.createElement("input");
+              PaysD.className ='ajout_modif';
+              PaysD.id = "PD";
+              PaysD.type = "text";
+              PaysD.value = "FR";
+
+              let LabelTerminalD = document.createElement("label");
+              LabelTerminalD.textContent = "Terminal départ : ";
+              let TerminalD = document.createElement("input");
+              TerminalD.className ='ajout_modif';
+              TerminalD.id = "TD";
+              TerminalD.type = "text";
+              TerminalD.value = "2E";
+
+              let LabelHeureD = document.createElement("label");
+              LabelHeureD.textContent = "Heure départ : ";
+              let HeureD = document.createElement("input");
+              HeureD.className ='ajout_modif';
+              HeureD.id = "HD";
+              HeureD.type = "time";
+              HeureD.value = "23:30";
+
+
+              let labelPaysA = document.createElement("label");
+              labelPaysA.textContent = "Pays arrivée : ";
+              let PaysA = document.createElement("input");
+              PaysA.className ='ajout_modif';
+              PaysA.id = "PA";
+              PaysA.type = "text";
+              PaysA.value = "BR";
+
+              let LabelTerminalA = document.createElement("label");
+              LabelTerminalA.textContent = "Terminal arrivée : ";
+              let TerminalA = document.createElement("input");
+              TerminalA.className ='ajout_modif';
+              TerminalA.id = "TA";
+              TerminalA.type = "text";
+              TerminalA.value = "1";
+
+              let LabelHeureA = document.createElement("label");
+              LabelHeureA.textContent = "Heure arrivée : ";
+              let HeureA = document.createElement("input");
+              HeureA.className ='ajout_modif';
+              HeureA.id = "HA";
+              HeureA.type = "time";
+              HeureA.value = "05:30";
+
+
+              let ligneBouton = document.createElement("div");
+              ligneBouton.id = "conteneur-bouton";
+
+              let modifer = document.createElement("input");
+              modifer.className ='ajout_modif';
+              modifer.id = "modifer";
+              modifer.type = "button";
+              modifer.value = "Modifer le vol";
+              //modifer.addEventListener("click", ajouterTache);
+
+              colonneGauche.append(labelCompagnie, compagnie,
+                labelAD, aeroportD, labelVD, VilleD, labelDD, DateD,
+                labelAA, aeroportA, labelVA, VilleA, labelDA, DateA,
+              )
+
+              colonneDroite.append(Labelnum, num,
+                labelPaysD, PaysD, LabelTerminalD, TerminalD, LabelHeureD, HeureD,
+                labelPaysA, PaysA, LabelTerminalA, TerminalA, LabelHeureA, HeureA,
+              )
+              ligneBouton.append(modifer);
+              divVols.append(colonneGauche, colonneDroite, ligneBouton);
+                
+        
               }
-              else {
-                alert("Impossible de récuperer la tâche");
-              }
-            }
+            
   
-  
+  /*
             async function sauvegarderTache() {
               let url = document.querySelector('#ID').value;
               let titre = document.querySelector('#Titre').value;
@@ -140,7 +276,7 @@
               let zone = document.querySelector('#currenttask');
               let titre = document.querySelector('#Titre');
               if (titre) {
-                let url = document.querySelector('#ID').value;
+                let url = document.querySelector('#ID').value;C 
                 let response = await fetch(url, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } });
                 if (response.ok) {
                   alert("Tâche Supprimée !");
@@ -165,24 +301,28 @@
               let labelCompagnie = document.createElement("label");
               labelCompagnie.textContent = "Compagnie : ";
               let compagnie = document.createElement("input");
+              compagnie.className ='ajout_modif';
               compagnie.id = "Titre";
               compagnie.type = "text";
 
               let labelAD = document.createElement("label");
               labelAD.textContent = "Aéroport départ/ IATA : ";
               let aeroportD = document.createElement("input");
+              aeroportD.className ='ajout_modif';
               aeroportD.id = "AD";
               aeroportD.type = "text";
 
               let labelVD = document.createElement("label");
               labelVD.textContent = "Ville départ : ";
               let VilleD = document.createElement("input");
+              VilleD.className ='ajout_modif';
               VilleD.id = "VD";
               VilleD.type = "text";
 
               let labelDD = document.createElement("label");
               labelDD.textContent = "Date départ : ";
               let DateD = document.createElement("input");
+              DateD.className ='ajout_modif';
               DateD.id = "DD";
               DateD.type = "date";
 
@@ -190,18 +330,21 @@
               let labelAA = document.createElement("label");
               labelAA.textContent = "Aéroport arrivée/ IATA : ";
               let aeroportA = document.createElement("input");
+              aeroportA.className ='ajout_modif';
               aeroportA.id = "AA";
               aeroportA.type = "text";
 
               let labelVA = document.createElement("label");
               labelVA.textContent = "Ville arrivée : ";
               let VilleA = document.createElement("input");
+              VilleA.className ='ajout_modif';
               VilleA.id = "VA";
               VilleA.type = "text";
 
               let labelDA = document.createElement("label");
               labelDA.textContent = "Date arrivée : ";
               let DateA = document.createElement("input");
+              DateA.className ='ajout_modif';
               DateA.id = "DA";
               DateA.type = "date";
 
@@ -212,24 +355,28 @@
               let Labelnum = document.createElement("label");
               Labelnum.textContent = "N° du vol : ";
               let num = document.createElement("input");
+              num.className ='ajout_modif';
               num.id = "Num";
               num.type = "text";
 
               let labelPaysD = document.createElement("label");
               labelPaysD.textContent = "Pays départ : ";
               let PaysD = document.createElement("input");
+              PaysD.className ='ajout_modif';
               PaysD.id = "PD";
               PaysD.type = "text";
 
               let LabelTerminalD = document.createElement("label");
               LabelTerminalD.textContent = "Terminal départ : ";
               let TerminalD = document.createElement("input");
+              TerminalD.className ='ajout_modif';
               TerminalD.id = "TD";
               TerminalD.type = "text";
 
               let LabelHeureD = document.createElement("label");
               LabelHeureD.textContent = "Heure départ : ";
               let HeureD = document.createElement("input");
+              HeureD.className ='ajout_modif';
               HeureD.id = "HD";
               HeureD.type = "time";
 
@@ -237,18 +384,21 @@
               let labelPaysA = document.createElement("label");
               labelPaysA.textContent = "Pays arrivée : ";
               let PaysA = document.createElement("input");
+              PaysA.className ='ajout_modif';
               PaysA.id = "PA";
               PaysA.type = "text";
 
               let LabelTerminalA = document.createElement("label");
               LabelTerminalA.textContent = "Terminal arrivée : ";
               let TerminalA = document.createElement("input");
+              TerminalA.className ='ajout_modif';
               TerminalA.id = "TA";
               TerminalA.type = "text";
 
               let LabelHeureA = document.createElement("label");
               LabelHeureA.textContent = "Heure arrivée : ";
               let HeureA = document.createElement("input");
+              HeureA.className ='ajout_modif';
               HeureA.id = "HA";
               HeureA.type = "time";
 
@@ -257,10 +407,11 @@
               ligneBouton.id = "conteneur-bouton";
 
               let ajouter = document.createElement("input");
+              ajouter.className ='ajout_modif';
               ajouter.id = "ajouter";
               ajouter.type = "button";
-              ajouter.value = "Ajouter la tâche";
-              ajouter.addEventListener("click", ajouterTache);
+              ajouter.value = "Ajouter le vol";
+              //ajouter.addEventListener("click", ajouterTache);
 
               colonneGauche.append(labelCompagnie, compagnie,
                 labelAD, aeroportD, labelVD, VilleD, labelDD, DateD,
@@ -275,7 +426,7 @@
               zone.append(colonneGauche, colonneDroite, ligneBouton);
             }
 
-            async function ajouterTache() {
+            /*async function ajouterTache() {
               let zone = document.querySelector('#currenttask');
               let url = 'http://127.0.0.1:5000/todo/api/v1.0/tasks';
               let titre = document.querySelector('#Titre').value;
@@ -295,7 +446,7 @@
               } else {
                 alert("Erreur lors de l'ajout");
               }
-            }
+            }*/
           })
 
         </script>
@@ -303,9 +454,6 @@
     </nav>
 
   </div>
-  <footer>
-    <h4>©Département Informatique ⚛ IUT d'Orléans</h4>
-  </footer>
 
 </body>
 

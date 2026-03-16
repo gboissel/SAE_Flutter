@@ -6,3 +6,7 @@ ns = Namespace("api")
 class Hello(Resource):
     def get(self):
         return {"hello": "restx"}
+@ns.route("/vols")
+class Vols(Resource):
+    def get(self):
+        return 

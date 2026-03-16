@@ -62,20 +62,17 @@ h6 {
         min-width: 350px;
 }
 
-/* On applique l'espace directement sur les labels et les inputs */
 #vols li label,
 #vols li input {
         margin-bottom: 15px;
         padding: 5px;
 }
 
-/* Le label a un petit espace à droite pour ne pas coller l'input */
 #vols li label {
         margin-right: 15px;
         font-weight: bold;
 }
 
-/* Le bouton bien centré en dessous */
 #conteneur-bouton {
         flex-basis: 100%;
         display: flex;

@@ -9,9 +9,9 @@
 </head>
 
 <body>
-  <header>
+  <header id="header">
     <input id="all" type="button" value="Voir tous les vols" />
-    <h3>Tous les vols</h3>
+    <h3 id="titre"></h3>
     <input id="add" type="button" value="Ajouter un vol" />
   </header>
 
@@ -19,182 +19,282 @@
 
     <nav id="nav1">
       <div id="vols">
-      <script>
+        <script>
           document.addEventListener("DOMContentLoaded", function () {
             const btnVols = document.getElementById("all");
+            const titre = document.getElementById("titre");
             const divVols = document.getElementById("vols");
 
             async function afficherVols() {
               //let url = 'http://127.0.0.1:5000/todo/api/v1.0/tasks';
               //let response = await fetch(url);
               //if (response.ok) {
-                //let data = await response.json();
-                divVols.innerHTML = ""; 
+              //let data = await response.json();
+              divVols.innerHTML = "";
 
-                /*let ul = document.createElement("ul");
-                ul.className = "listeTaches";
+              let ul = document.createElement("ul");
+              ul.className = "listeVols";
 
-                data.tasks.forEach(task => {
-                  let li = document.createElement("li");
-                  li.textContent = task.title;
-                  li.dataset.uri = task.uri;
-                  li.addEventListener('click', afficherTache);
-                  ul.appendChild(li);
-                });
+             for (let i = 0; i < 10; i++) {
+                let li = document.createElement("li");
+                li.id='Vol';
+                let ulVol = document.createElement("ul");
+                let liNumCompagnie = document.createElement("li");
+                liNumCompagnie.className = "textevol";
+                liNumCompagnie.textContent="N°445 - AIRFRANCE";
+                let liVilles = document.createElement("li");
+                liVilles.className = "textevol";
+                liVilles.textContent="Paris (FR) - Rio (BR)";
+                let liDepart = document.createElement("li");
+                liDepart.className = "textevol";
+                liDepart.textContent="Départ : 10/07/2023 à 23h30, Charles de Gaulle, terminal 2E";
+                let liArrivee = document.createElement("li");
+                liArrivee.className = "textevol";
+                liArrivee.textContent="Arrivée :  11/07/2023 à 5h30, Antonio Carlos Jobim, terminal 1 ";
 
-                divVols.appendChild(ul);*/
-                console.log("Voir tous les vols appuyé")
-              } 
-            
+
+                ulVol.append(liNumCompagnie,liVilles,liDepart,liArrivee);
+                li.append( ulVol);
+                ul.appendChild(li);
+              }
+              divVols.append(ul);
+              titre.textContent = "Tous les vols"
+              //console.log("Voir tous les vols appuyé")
+            };
+
+
+
 
             if (btnVols) {
               btnVols.addEventListener("click", afficherVols);
-              document.getElementById("add").addEventListener("click",creerVol);
+              document.getElementById("add").addEventListener("click", creerVol);
             }
 
-            async function afficherTache() {
+            /*async function afficherTache() {
               let url = this.dataset.uri;
               let response = await fetch(url);
               if (response.ok) {
                 let data = await response.json();
-                let task=data.task;
+                let task = data.task;
                 let zone = document.querySelector('#currenttask')
                 zone.innerHTML = "";
-
+  
                 let titre = document.createElement("input");
-                titre.id="Titre";
+                titre.id = "Titre";
                 titre.type = "text";
                 titre.value = task.title;
-
+  
                 let description = document.createElement("input");
-                description.id="Description";
+                description.id = "Description";
                 description.type = "text";
                 description.value = task.description;
-
+  
                 let label = document.createElement("label");
                 label.textContent = "Tâche terminée : ";
                 let finie = document.createElement("input");
                 finie.id = "Done";
                 finie.type = "checkbox";
                 finie.checked = task.done;
-
+  
                 let id = document.createElement("input");
-                id.id="ID";
+                id.id = "ID";
                 id.type = "hidden";
                 id.value = this.dataset.uri;
-
-                let sauvegarder= document.createElement("input");
-                sauvegarder.id="sauvegarder";
-                sauvegarder.type="button";
-                sauvegarder.value="Sauvegarder les modifications";
+  
+                let sauvegarder = document.createElement("input");
+                sauvegarder.id = "sauvegarder";
+                sauvegarder.type = "button";
+                sauvegarder.value = "Sauvegarder les modifications";
                 sauvegarder.addEventListener("click", sauvegarderTache);
-                zone.append(titre,document.createElement("br"),description,document.createElement("br"),label,finie,document.createElement("br"),id, sauvegarder);
-            }
-            else {
+                zone.append(titre,   description,   label, finie,   id, sauvegarder);
+              }
+              else {
                 alert("Impossible de récuperer la tâche");
               }
             }
-          
-
+  
+  
             async function sauvegarderTache() {
               let url = document.querySelector('#ID').value;
               let titre = document.querySelector('#Titre').value;
               let description = document.querySelector('#Description').value;
               let finie = document.querySelector('#Done').checked;
-              let response = await fetch(url, { method: 'PUT', headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify({ 
-                title: titre,
-               description : description,
-              done : finie })});
-                if (response.ok) {
-                  alert("Tâche mise à jour !");
-                  taches(); 
+              let response = await fetch(url, {
+                method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  title: titre,
+                  description: description,
+                  done: finie
+                })
+              });
+              if (response.ok) {
+                alert("Tâche mise à jour !");
+                taches();
               } else {
-                  alert("Erreur lors de la sauvegarde");
+                alert("Erreur lors de la sauvegarde");
               }
             }
-
-
+  
+  
             async function supprimer() {
               let zone = document.querySelector('#currenttask');
-              let titre =document.querySelector('#Titre');
-              if( titre ){
+              let titre = document.querySelector('#Titre');
+              if (titre) {
                 let url = document.querySelector('#ID').value;
-                let response = await fetch(url, { method: 'DELETE', headers: {'Content-Type': 'application/json'}});
-                  if (response.ok) {
-                    alert("Tâche Supprimée !");
-                    zone.innerHTML = "";
-                    taches(); 
+                let response = await fetch(url, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } });
+                if (response.ok) {
+                  alert("Tâche Supprimée !");
+                  zone.innerHTML = "";
+                  taches();
                 } else {
-                    alert("Erreur lors de la suppression");
+                  alert("Erreur lors de la suppression");
                 }
               }
-              else{
+              else {
                 alert("Veuillez séléctionner une tâche d'abord");
               }
-            }
+            }*/
 
             async function creerVol() {
               let zone = document.querySelector('#vols');
               zone.innerHTML = "";
+              titre.textContent = "Ajouter un Vol";
 
-              let colonneGauche =document.createElement("li");
+              let colonneGauche = document.createElement("li");
 
               let labelCompagnie = document.createElement("label");
               labelCompagnie.textContent = "Compagnie : ";
               let compagnie = document.createElement("input");
-              compagnie.id="Titre";
+              compagnie.id = "Titre";
               compagnie.type = "text";
 
               let labelAD = document.createElement("label");
               labelAD.textContent = "Aéroport départ/ IATA : ";
               let aeroportD = document.createElement("input");
-              aeroportD.id="AD";
+              aeroportD.id = "AD";
               aeroportD.type = "text";
 
               let labelVD = document.createElement("label");
               labelVD.textContent = "Ville départ : ";
               let VilleD = document.createElement("input");
-              VilleD.id="VD";
+              VilleD.id = "VD";
               VilleD.type = "text";
 
               let labelDD = document.createElement("label");
               labelDD.textContent = "Date départ : ";
               let DateD = document.createElement("input");
-              DateD.id="DD";
+              DateD.id = "DD";
               DateD.type = "date";
 
-              
 
-              
-              let ajouter= document.createElement("input");
-                ajouter.id="ajouter";
-                ajouter.type="button";
-                ajouter.value="Ajouter la tâche";
-                ajouter.addEventListener("click", ajouterTache);
+              let labelAA = document.createElement("label");
+              labelAA.textContent = "Aéroport arrivée/ IATA : ";
+              let aeroportA = document.createElement("input");
+              aeroportA.id = "AA";
+              aeroportA.type = "text";
 
-              colonneGauche.append(labelCompagnie,compagnie,document.createElement("br"),labelAD, aeroportD,document.createElement("br"),
-            labelVD,VilleD,document.createElement("br"),labelDD,DateD,document.createElement("br"))
-              zone.append(colonneGauche,ajouter);
+              let labelVA = document.createElement("label");
+              labelVA.textContent = "Ville arrivée : ";
+              let VilleA = document.createElement("input");
+              VilleA.id = "VA";
+              VilleA.type = "text";
+
+              let labelDA = document.createElement("label");
+              labelDA.textContent = "Date arrivée : ";
+              let DateA = document.createElement("input");
+              DateA.id = "DA";
+              DateA.type = "date";
+
+
+
+              let colonneDroite = document.createElement("li");
+
+              let Labelnum = document.createElement("label");
+              Labelnum.textContent = "N° du vol : ";
+              let num = document.createElement("input");
+              num.id = "Num";
+              num.type = "text";
+
+              let labelPaysD = document.createElement("label");
+              labelPaysD.textContent = "Pays départ : ";
+              let PaysD = document.createElement("input");
+              PaysD.id = "PD";
+              PaysD.type = "text";
+
+              let LabelTerminalD = document.createElement("label");
+              LabelTerminalD.textContent = "Terminal départ : ";
+              let TerminalD = document.createElement("input");
+              TerminalD.id = "TD";
+              TerminalD.type = "text";
+
+              let LabelHeureD = document.createElement("label");
+              LabelHeureD.textContent = "Heure départ : ";
+              let HeureD = document.createElement("input");
+              HeureD.id = "HD";
+              HeureD.type = "time";
+
+
+              let labelPaysA = document.createElement("label");
+              labelPaysA.textContent = "Pays arrivée : ";
+              let PaysA = document.createElement("input");
+              PaysA.id = "PA";
+              PaysA.type = "text";
+
+              let LabelTerminalA = document.createElement("label");
+              LabelTerminalA.textContent = "Terminal arrivée : ";
+              let TerminalA = document.createElement("input");
+              TerminalA.id = "TA";
+              TerminalA.type = "text";
+
+              let LabelHeureA = document.createElement("label");
+              LabelHeureA.textContent = "Heure arrivée : ";
+              let HeureA = document.createElement("input");
+              HeureA.id = "HA";
+              HeureA.type = "time";
+
+
+              let ligneBouton = document.createElement("div");
+              ligneBouton.id = "conteneur-bouton";
+
+              let ajouter = document.createElement("input");
+              ajouter.id = "ajouter";
+              ajouter.type = "button";
+              ajouter.value = "Ajouter la tâche";
+              ajouter.addEventListener("click", ajouterTache);
+
+              colonneGauche.append(labelCompagnie, compagnie,
+                labelAD, aeroportD, labelVD, VilleD, labelDD, DateD,
+                labelAA, aeroportA, labelVA, VilleA, labelDA, DateA,
+              )
+
+              colonneDroite.append(Labelnum, num,
+                labelPaysD, PaysD, LabelTerminalD, TerminalD, LabelHeureD, HeureD,
+                labelPaysA, PaysA, LabelTerminalA, TerminalA, LabelHeureA, HeureA,
+              )
+              ligneBouton.append(ajouter);
+              zone.append(colonneGauche, colonneDroite, ligneBouton);
             }
 
             async function ajouterTache() {
               let zone = document.querySelector('#currenttask');
-                let url = 'http://127.0.0.1:5000/todo/api/v1.0/tasks';
-                let titre = document.querySelector('#Titre').value;
-                let description = document.querySelector('#Description').value;
-                let finie = document.querySelector('#Done').checked;
-                let response = await fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'} ,body: JSON.stringify({ 
-                title: titre,
-               description : description,
-              done : finie })});
-                  if (response.ok) {
-                    alert("Tâche ajoutée !");
-                    taches(); 
-                    zone.innerHTML="";
-                } else {
-                    alert("Erreur lors de l'ajout");
-                }
+              let url = 'http://127.0.0.1:5000/todo/api/v1.0/tasks';
+              let titre = document.querySelector('#Titre').value;
+              let description = document.querySelector('#Description').value;
+              let finie = document.querySelector('#Done').checked;
+              let response = await fetch(url, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+                  title: titre,
+                  description: description,
+                  done: finie
+                })
+              });
+              if (response.ok) {
+                alert("Tâche ajoutée !");
+                taches();
+                zone.innerHTML = "";
+              } else {
+                alert("Erreur lors de l'ajout");
+              }
             }
           })
 

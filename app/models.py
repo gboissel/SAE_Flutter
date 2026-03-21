@@ -25,5 +25,14 @@ class Vols(db.Model):
     rel_depart = db.relationship("Aeroport", back_populates="vols_depart", foreign_keys=[depart])
     rel_arriver = db.relationship("Aeroport", back_populates="vols_arriver", foreign_keys=[arriver])
 
+
+# Fonctions pour les vols
 def get_all_vols():
     return Vols.query.all()
+
+# Fonctions pour les Aeroport
+def get_all_aeroport():
+    return Aeroport.query.all()
+
+def get_aeroport(id):
+    return Aeroport.query.get(id)

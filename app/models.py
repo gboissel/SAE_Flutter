@@ -1,5 +1,5 @@
 from .extensions import db
-
+from datetime import datetime
 class Aeroport(db.Model):
     __tablename__='aeroport'
     CodeIATA = db.Column(db.String(5),primary_key=True)
@@ -30,9 +30,59 @@ class Vols(db.Model):
 def get_all_vols():
     return Vols.query.all()
 
+def get_vol(compagnie,numVol,dateheureDep):
+    """Renvoie le vol correspondant à l'ID demander rien sinon"""
+    if isinstance(dateheureDep, str):
+        dateheureDep = datetime.fromisoformat(dateheureDep.replace('Z', '+00:00'))
+    return Vols.query.get((compagnie,numVol,dateheureDep))
+
+def create_vols(Compagnie,numVol,dateheureDep,dateheureArr,terminalDep,terminalArr,depart,arriver):
+    """Creer une instance de Vol et l'ajoute a la BD"""
+    if isinstance(dateheureDep, str):
+        dateheureDep = datetime.fromisoformat(dateheureDep.replace('Z', '+00:00'))
+    if isinstance(dateheureArr, str):
+        dateheureArr = datetime.fromisoformat(dateheureArr.replace('Z', '+00:00'))
+    vol = Vols(Compagnie=Compagnie,numVol=numVol,dateheureDep=dateheureDep,dateheureArr=dateheureArr,terminalDep=terminalDep,terminalArr=terminalArr,depart=depart,arriver=arriver)
+    db.session.add(vol)
+    db.session.commit()
+    return vol
+
+def modif_vol(Compagnie,numVol,dateheureDep):
+    pass #TODO modif vol
+
+def delete_vol(Compagnie,numVol,dateheureDep):
+    vol = Vols.query.get((Compagnie,numVol,dateheureDep))
+    if vol is None:
+        return
+    db.session.delete(vol)
+    db.session.commit()
+
+
 # Fonctions pour les Aeroport
 def get_all_aeroport():
     return Aeroport.query.all()
 
-def get_aeroport(id):
-    return Aeroport.query.get(id)
+def get_aeroport(CodeIATA):
+    return Aeroport.query.get(CodeIATA)
+
+def create_aeroport(CodeIATA,nomAeroport,CodePays,ville):
+    aeroport = Aeroport(CodeIATA=CodeIATA,nomAeroport=nomAeroport,CodePays=CodePays,ville=ville)
+    db.session.add(aeroport)
+    db.session.commit()
+    return aeroport
+
+def modif_aeroport(CodeIATA,nomAeroport,CodePays,ville):
+    aero = get_aeroport(CodeIATA)
+    if aero is None:
+        return
+    aero.nomAeroport = nomAeroport
+    aero.codePays = CodePays
+    aero.ville = ville
+    db.commit()
+
+def delete_aeroport(CodeIATA):
+    aero = Aeroport.query.get(CodeIATA)
+    if aero is None:
+        return
+    db.session.delete(aero)
+    db.session.commit()

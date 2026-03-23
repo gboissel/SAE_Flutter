@@ -1,0 +1,7 @@
+vol/5 : vol(NumVol, AeroDep, AeroArr, HeureDep, HeureArr)
+
+equipage/3 : equipage(NumVol, NomMembre, Fonction)
+
+indice_qualite/4 : indice_qualite(NumVol, Label, Poids1, Poids2)
+
+aeroport/4 : aeroport(Code, Pays, Ville, NomComplet)

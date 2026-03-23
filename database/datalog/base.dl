@@ -1,0 +1,15 @@
+% --- BASE DE DONNÉES ---
+vol(af442, cdg, gig, 1300, 1900).
+equipage(af442, goscinny, pilote).
+equipage(af442, uderzo, commissaire).
+indice(af442, carbone, 3, 4).
+
+% --- RÈGLES ---
+% Trouver tous les pilotes de la base
+liste_pilotes(Nom) :- equipage(Vol, Nom, pilote).
+
+% Trouver les vols qui ont un indice carbone
+vol_polluant(V) :- indice(V, carbone, P1, P2).
+
+% --- REQUÊTE (À copier-coller dans l'outil) ---
+% liste_pilotes(X)?

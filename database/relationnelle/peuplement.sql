@@ -1,4 +1,3 @@
-
 DELETE FROM Vol;
 DELETE FROM Aeroport;
 

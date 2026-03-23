@@ -1,9 +1,11 @@
 from flask import Flask
 from flask import Flask
+from flask_cors import CORS
 from .extensions import api, db
 from .views import ns
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/vols/*": {"origins" : "*"} })
 
 # initialisation de la BD
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite3"

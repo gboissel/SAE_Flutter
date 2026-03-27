@@ -51,7 +51,7 @@ def modif_vol(Compagnie,numVol,dateheureDep):
     pass #TODO modif vol
 
 def delete_vol(Compagnie,numVol,dateheureDep):
-    vol = Vols.query.get((Compagnie,numVol,dateheureDep))
+    vol = Vols.query.get((Compagnie,numVol,datetime.fromtimestamp(dateheureDep / 1000.0)))
     if vol is None:
         return
     db.session.delete(vol)

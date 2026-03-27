@@ -80,7 +80,7 @@
                   boutonSupp.className = "BoutonVol";
                   boutonSupp.type = "button";
                   boutonSupp.value = "Supp";
-                  boutonSupp.addEventListener("click",() => suppVol(vol));
+                  boutonSupp.addEventListener("click", () => suppVol(vol));
 
                   let boutonModif = document.createElement("input");
                   boutonModif.className = "BoutonVol";
@@ -126,17 +126,17 @@
             };
 
             async function suppVol(vol) {
-                /*let url = `http://127.0.0.1:5000/api/vols/${vol.depart}/${vol.numVol}/${vol.dateheureDep}`
-                let response = await fetch(url, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } });
-                if (response.ok) {
-                  alert("Vol Supprimé !");
-                  afficherVols();
-                } else {
-                  alert("Erreur lors de la suppression");
-                }*/
-               console.log(vol);
+              let url = `http://127.0.0.1:5000/api/vols/${vol.Compagnie}/${vol.numVol}/${Date.parse(vol.dateheureDep)}`
+              let response = await fetch(url, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } });
+              if (response.ok) {
+                alert("Vol Supprimé !");
+                afficherVols();
+              } else {
+                alert("Erreur lors de la suppression");
               }
-      
+              console.log(vol);
+            }
+
 
 
             if (btnVols) {
@@ -145,13 +145,6 @@
             }
 
             async function modifVol(vol) {
-              /*let url = this.dataset.uri;
-              let response = await fetch(url);
-              if (response.ok) {
-                let data = await response.json();
-                let task = data.task;
-                let zone = document.querySelector('#currenttask')
-                zone.innerHTML = "";*/
               divVols.innerHTML = "";
               let aeroDepart = await aeroport(vol["depart"]);
               let aeroArrivee = await aeroport(vol["arriver"]);
@@ -164,7 +157,7 @@
               labelCompagnie.textContent = "Compagnie : ";
               let compagnie = document.createElement("input");
               compagnie.className = 'ajout_modif';
-              compagnie.id = "Titre";
+              compagnie.id = "Compagnie";
               compagnie.type = "text";
               compagnie.value = vol.Compagnie;
 
@@ -174,7 +167,7 @@
               aeroportD.className = 'ajout_modif';
               aeroportD.id = "AD";
               aeroportD.type = "text";
-              aeroportD.value = aeroDepart.nomAeroport;
+              aeroportD.value = aeroDepart.CodeIATA;
 
               let labelVD = document.createElement("label");
               labelVD.textContent = "Ville départ : ";
@@ -185,20 +178,25 @@
               VilleD.value = aeroDepart.ville;
 
 
-              let dateDepart= new Date(vol.dateheureDep).toLocaleString('fr-FR', {
-                      day: '2-digit',
-                      month: '2-digit',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })
+              let dateBruteD = vol.dateheureDep;
+              let partiesD = dateBruteD.split('T');
+              let laDateD = partiesD[0];
+              let lHeureD = partiesD[1].substring(0, 5);
+
+
+              let dateBruteA = vol.dateheureArr;
+              let partiesA = dateBruteA.split('T');
+              let laDateA = partiesA[0];
+              let lHeureA = partiesA[1].substring(0, 5);
+
+
               let labelDD = document.createElement("label");
               labelDD.textContent = "Date départ : ";
               let DateD = document.createElement("input");
               DateD.className = 'ajout_modif';
               DateD.id = "DD";
               DateD.type = "date";
-              DateD.value = dateDepart.toString;
+              DateD.value = laDateD;
 
 
               let labelAA = document.createElement("label");
@@ -207,7 +205,7 @@
               aeroportA.className = 'ajout_modif';
               aeroportA.id = "AA";
               aeroportA.type = "text";
-              aeroportA.value = "Antonio Carlos Jobim";
+              aeroportA.value = aeroArrivee.CodeIATA;
 
               let labelVA = document.createElement("label");
               labelVA.textContent = "Ville arrivée : ";
@@ -215,7 +213,7 @@
               VilleA.className = 'ajout_modif';
               VilleA.id = "VA";
               VilleA.type = "text";
-              VilleA.value = "Rio";
+              VilleA.value = aeroArrivee.ville;
 
               let labelDA = document.createElement("label");
               labelDA.textContent = "Date arrivée : ";
@@ -223,7 +221,7 @@
               DateA.className = 'ajout_modif';
               DateA.id = "DA";
               DateA.type = "date";
-              DateA.value = "2023-07-11";
+              DateA.value = laDateA;
 
               let colonneDroite = document.createElement("li");
 
@@ -233,7 +231,7 @@
               num.className = 'ajout_modif';
               num.id = "Num";
               num.type = "text";
-              num.value = "0";
+              num.value = vol.numVol;
 
               let labelPaysD = document.createElement("label");
               labelPaysD.textContent = "Pays départ : ";
@@ -241,7 +239,7 @@
               PaysD.className = 'ajout_modif';
               PaysD.id = "PD";
               PaysD.type = "text";
-              PaysD.value = "FR";
+              PaysD.value = aeroDepart.CodePays;
 
               let LabelTerminalD = document.createElement("label");
               LabelTerminalD.textContent = "Terminal départ : ";
@@ -249,7 +247,7 @@
               TerminalD.className = 'ajout_modif';
               TerminalD.id = "TD";
               TerminalD.type = "text";
-              TerminalD.value = "2E";
+              TerminalD.value = vol.terminalDep;
 
               let LabelHeureD = document.createElement("label");
               LabelHeureD.textContent = "Heure départ : ";
@@ -257,7 +255,7 @@
               HeureD.className = 'ajout_modif';
               HeureD.id = "HD";
               HeureD.type = "time";
-              HeureD.value = "23:30";
+              HeureD.value = lHeureD;
 
 
               let labelPaysA = document.createElement("label");
@@ -266,7 +264,7 @@
               PaysA.className = 'ajout_modif';
               PaysA.id = "PA";
               PaysA.type = "text";
-              PaysA.value = "BR";
+              PaysA.value = aeroArrivee.CodePays;
 
               let LabelTerminalA = document.createElement("label");
               LabelTerminalA.textContent = "Terminal arrivée : ";
@@ -274,7 +272,7 @@
               TerminalA.className = 'ajout_modif';
               TerminalA.id = "TA";
               TerminalA.type = "text";
-              TerminalA.value = "1";
+              TerminalA.value = vol.terminalArr;
 
               let LabelHeureA = document.createElement("label");
               LabelHeureA.textContent = "Heure arrivée : ";
@@ -282,7 +280,7 @@
               HeureA.className = 'ajout_modif';
               HeureA.id = "HA";
               HeureA.type = "time";
-              HeureA.value = "05:30";
+              HeureA.value = lHeureA;
 
 
               let ligneBouton = document.createElement("div");
@@ -293,7 +291,7 @@
               modifer.id = "modifer";
               modifer.type = "button";
               modifer.value = "Modifer le vol";
-              //modifer.addEventListener("click", ajouterTache);
+              modifer.addEventListener("click", () => sauvegarderVol);
 
               colonneGauche.append(labelCompagnie, compagnie,
                 labelAD, aeroportD, labelVD, VilleD, labelDD, DateD,
@@ -311,30 +309,57 @@
             }
 
 
-            /*
-                      async function sauvegarderTache() {
-                        let url = document.querySelector('#ID').value;
-                        let titre = document.querySelector('#Titre').value;
-                        let description = document.querySelector('#Description').value;
-                        let finie = document.querySelector('#Done').checked;
-                        let response = await fetch(url, {
-                          method: 'PUT', headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                            title: titre,
-                            description: description,
-                            done: finie
-                          })
-                        });
-                        if (response.ok) {
-                          alert("Tâche mise à jour !");
-                          taches();
-                        } else {
-                          alert("Erreur lors de la sauvegarde");
-                        }
-                      }
-            */
 
-            
+            async function sauvegarderVol(CompagnieOrigine, numVolOrigine, DDHOrigine) {
+              let num = document.getElementById('Num').value;
+              let compagnie = document.getElementById('Compagnie').value;
+              let IATAD = document.getElementById('AD').value;
+              let IATAA = document.getElementById('AA').value;
+              let villeD = document.getElementById('VD').value;
+              let villeA = document.getElementById('VA').value;
+              let paysD = document.getElementById('PD').value;
+              let paysA = document.getElementById('PA').value;
+              let terminalD = document.getElementById('TD').value;
+              let terminalA = document.getElementById('TA').value;
+              let dateD = document.getElementById('DA').value;
+              let dateA = document.getElementById('DD').value;
+              let heureD = document.getElementById('HD').value;
+              let heureA = document.getElementById('HA').value;
+
+              let aeroportDVoulu = await aeroport(IATAD)
+              console.log(await aeroport(IATAD));
+              console.log(`{ CodeIATA: ${IATAD}, nomAeroport: ${aeroportDVoulu.nomAeroport}, CodePays: ${paysD}, ville: ${villeD} }`);
+              if (aeroportDVoulu.CodeIATA === IATAD && aeroportDVoulu.CodePays === paysD && aeroportDVoulu.ville === villeD) {
+                let response = await fetch(url, {
+                  method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    Compagnie: compagnie,
+                    numVol: num,
+                    dateheureDep: dateD + "T" + heureD,
+                    dateheureArr: dateA + "T" + heureA,
+                    terminalDep: terminalD,
+                    terminalArr: terminalA,
+                    depart: IATAD,
+                    arriver: IATAA,
+                  })
+                });
+                if (response.ok) {
+                  alert("Tâche mise à jour !");
+                  taches();
+                } else {
+                  alert("Erreur lors de la sauvegarde");
+                }
+              }
+              else {
+                console.log("c'est cassé");
+              }
+
+
+              console.log("sauvegarde");
+            }
+
+
+
 
             async function creerVol() {
               let zone = document.querySelector('#vols');

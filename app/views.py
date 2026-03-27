@@ -27,7 +27,7 @@ class VolsCollections(Resource):
 
 
 
-@ns.route("/vols/<string:CodeIATA>/<int:numVol>/<int:dateheureDep>")
+@ns.route("/vols/<string:Compagnie>/<int:numVol>/<int:dateheureDep>")
 class VolItem(Resource):
 
     @ns.marshal_with(vols_model)

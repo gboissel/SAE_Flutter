@@ -103,7 +103,6 @@
                 }
                 divVols.append(ul);
                 titre.textContent = "Tous les vols"
-                //console.log("Voir tous les vols appuyé")
               }
             };
 
@@ -145,7 +144,7 @@
               document.getElementById("add").addEventListener("click", creerVol);
             }
 
-            async function modifVol(numVol) {
+            async function modifVol(vol) {
               /*let url = this.dataset.uri;
               let response = await fetch(url);
               if (response.ok) {
@@ -154,6 +153,8 @@
                 let zone = document.querySelector('#currenttask')
                 zone.innerHTML = "";*/
               divVols.innerHTML = "";
+              let aeroDepart = await aeroport(vol["depart"]);
+              let aeroArrivee = await aeroport(vol["arriver"]);
 
               titre.textContent = "Modifier un Vol";
 
@@ -165,7 +166,7 @@
               compagnie.className = 'ajout_modif';
               compagnie.id = "Titre";
               compagnie.type = "text";
-              compagnie.value = "AIRFRANCE";
+              compagnie.value = vol.Compagnie;
 
               let labelAD = document.createElement("label");
               labelAD.textContent = "Aéroport départ/ IATA : ";
@@ -173,7 +174,7 @@
               aeroportD.className = 'ajout_modif';
               aeroportD.id = "AD";
               aeroportD.type = "text";
-              aeroportD.value = "Charles de Gaulle";
+              aeroportD.value = aeroDepart.nomAeroport;
 
               let labelVD = document.createElement("label");
               labelVD.textContent = "Ville départ : ";
@@ -181,15 +182,23 @@
               VilleD.className = 'ajout_modif';
               VilleD.id = "VD";
               VilleD.type = "text";
-              VilleD.value = "Paris";
+              VilleD.value = aeroDepart.ville;
 
+
+              let dateDepart= new Date(vol.dateheureDep).toLocaleString('fr-FR', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })
               let labelDD = document.createElement("label");
               labelDD.textContent = "Date départ : ";
               let DateD = document.createElement("input");
               DateD.className = 'ajout_modif';
               DateD.id = "DD";
               DateD.type = "date";
-              DateD.value = "2023-07-10";
+              DateD.value = dateDepart.toString;
 
 
               let labelAA = document.createElement("label");
@@ -224,7 +233,7 @@
               num.className = 'ajout_modif';
               num.id = "Num";
               num.type = "text";
-              num.value = numVol;
+              num.value = "0";
 
               let labelPaysD = document.createElement("label");
               labelPaysD.textContent = "Pays départ : ";

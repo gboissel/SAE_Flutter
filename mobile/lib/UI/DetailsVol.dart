@@ -66,10 +66,30 @@ class DetailsVol extends StatelessWidget {
       (departure.latitude + arrival.latitude) / 2,
       (departure.longitude + arrival.longitude) / 2,
     );
+    final distanceKm = const Distance().as(LengthUnit.Kilometer, departure, arrival);
+
+    final double zoom;
+    if (distanceKm > 10000) {
+      zoom = 1.8;
+    } else if (distanceKm > 7000) {
+      zoom = 2.4;
+    } else if (distanceKm > 4000) {
+      zoom = 3.0;
+    } else if (distanceKm > 2500) {
+      zoom = 3.8;
+    } else if (distanceKm > 1200) {
+      zoom = 4.6;
+    } else if (distanceKm > 600) {
+      zoom = 5.3;
+    } else if (distanceKm > 250) {
+      zoom = 6.0;
+    } else {
+      zoom = 6.8;
+    }
 
     return Container(
       width: double.infinity,
-      height: 260,
+      height: 400,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         boxShadow: const [
@@ -85,11 +105,12 @@ class DetailsVol extends StatelessWidget {
         child: FlutterMap(
           options: MapOptions(
             initialCenter: center,
-            initialZoom: 4.6,
+            initialZoom: zoom,
             interactionOptions: const InteractionOptions(
-              flags: InteractiveFlag.pinchZoom |
+              flags: InteractiveFlag.scrollWheelZoom |
                   InteractiveFlag.drag |
-                  InteractiveFlag.doubleTapZoom,
+                  InteractiveFlag.doubleTapZoom|
+                  InteractiveFlag.pinchZoom,
             ),
           ),
           children: [

@@ -29,7 +29,7 @@ class VolsCollections(Resource):
 
 
 @ns.route("/vols/<string:CodeIATA>/<int:numVol>/<int:dateheureDep>")
-class VolItem():
+class VolItem(Resource):
 
     @ns.marshal_with(vols_model)
     @ns.response(404,"Vol not found")

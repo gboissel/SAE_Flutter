@@ -8,7 +8,7 @@ def syncdb():
     db.create_all()
     db.session.query(Vols).delete()
     db.session.query(Aeroport).delete()
-    aer1 = Aeroport(CodeIATA='AF',nomAeroport = 'Orly',CodePays='FR',ville = 'Paris')
+    aer1 = Aeroport(CodeIATA='ORY',nomAeroport = 'Orly',CodePays='FR',ville = 'Paris')
     aer2 = Aeroport(CodeIATA='JFK',nomAeroport = 'New York-Kennedy',CodePays='US',ville = 'New York')
 
     vol = Vols(Compagnie= 'Air France',

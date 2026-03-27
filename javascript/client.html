@@ -162,7 +162,7 @@
               compagnie.value = vol.Compagnie;
 
               let labelAD = document.createElement("label");
-              labelAD.textContent = "Aéroport départ/ IATA : ";
+              labelAD.textContent = "IATA de départ : ";
               let aeroportD = document.createElement("input");
               aeroportD.className = 'ajout_modif';
               aeroportD.id = "AD";
@@ -200,7 +200,7 @@
 
 
               let labelAA = document.createElement("label");
-              labelAA.textContent = "Aéroport arrivée/ IATA : ";
+              labelAA.textContent = "IATA d'arrivée: ";
               let aeroportA = document.createElement("input");
               aeroportA.className = 'ajout_modif';
               aeroportA.id = "AA";
@@ -234,7 +234,7 @@
               num.value = vol.numVol;
 
               let labelPaysD = document.createElement("label");
-              labelPaysD.textContent = "Pays départ : ";
+              labelPaysD.textContent = "Code pays départ : ";
               let PaysD = document.createElement("input");
               PaysD.className = 'ajout_modif';
               PaysD.id = "PD";
@@ -259,7 +259,7 @@
 
 
               let labelPaysA = document.createElement("label");
-              labelPaysA.textContent = "Pays arrivée : ";
+              labelPaysA.textContent = "Code pays arrivée : ";
               let PaysA = document.createElement("input");
               PaysA.className = 'ajout_modif';
               PaysA.id = "PA";
@@ -291,7 +291,7 @@
               modifer.id = "modifer";
               modifer.type = "button";
               modifer.value = "Modifer le vol";
-              modifer.addEventListener("click", () => sauvegarderVol);
+              modifer.addEventListener("click", () => sauvegarderVol(vol.Compagnie, vol.numVol, vol.dateheureDep));
 
               colonneGauche.append(labelCompagnie, compagnie,
                 labelAD, aeroportD, labelVD, VilleD, labelDD, DateD,
@@ -321,42 +321,52 @@
               let paysA = document.getElementById('PA').value;
               let terminalD = document.getElementById('TD').value;
               let terminalA = document.getElementById('TA').value;
-              let dateD = document.getElementById('DA').value;
-              let dateA = document.getElementById('DD').value;
+              let dateD = document.getElementById('DD').value;
+              let dateA = document.getElementById('DA').value;
               let heureD = document.getElementById('HD').value;
               let heureA = document.getElementById('HA').value;
 
-              let aeroportDVoulu = await aeroport(IATAD)
-              console.log(await aeroport(IATAD));
-              /*console.log(`{ CodeIATA: ${IATAD}, nomAeroport: ${aeroportDVoulu.nomAeroport}, CodePays: ${paysD}, ville: ${villeD} }`);
-              if (aeroportDVoulu.CodeIATA === IATAD && aeroportDVoulu.CodePays === paysD && aeroportDVoulu.ville === villeD) {
-                let response = await fetch(url, {
-                  method: 'PUT', headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    Compagnie: compagnie,
-                    numVol: num,
-                    dateheureDep: dateD + "T" + heureD,
-                    dateheureArr: dateA + "T" + heureA,
-                    terminalDep: terminalD,
-                    terminalArr: terminalA,
-                    depart: IATAD,
-                    arriver: IATAA,
-                  })
-                });
-                if (response.ok) {
-                  alert("Tâche mise à jour !");
-                  taches();
-                } else {
-                  alert("Erreur lors de la sauvegarde");
+              let aeroportDVoulu = await aeroport(IATAD);
+              let aeroportAVoulu = await aeroport(IATAA);
+              if (num && compagnie && IATAD && IATAA && villeD && villeA && paysD && paysA && terminalD && terminalA && dateD && dateA && heureD && heureA) {
+                if (aeroportDVoulu && aeroportAVoulu) {
+                  if ((aeroportDVoulu.CodeIATA === IATAD && aeroportDVoulu.CodePays === paysD && aeroportDVoulu.ville === villeD) &&
+                    (aeroportAVoulu.CodeIATA === IATAA && aeroportAVoulu.CodePays === paysA && aeroportAVoulu.ville === villeA)) {
+                    alert("Vol devrait être mis à jour...");
+                    let response = await fetch(`http://127.0.0.1:5000/api/vols/${CompagnieOrigine}/${numVolOrigine}/${Date.parse(DDHOrigine)}`, {
+                      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        Compagnie: compagnie,
+                        numVol: num,
+                        dateheureDep: dateD + "T" + heureD,
+                        dateheureArr: dateA + "T" + heureA,
+                        terminalDep: terminalD,
+                        terminalArr: terminalA,
+                        depart: IATAD,
+                        arriver: IATAA,
+                      })
+                    });
+                    if (response.ok) {
+                      alert("Vol mis à jour !");
+                      afficherVols();
+                    } else {
+                      alert("Erreur lors de la modification");
+                    }
+                  }
+                  else {
+                    alert("Une des informations concernant le pays ou la ville d'un aéroport ne correspond pas à la réalité");
+                  }
+                }
+                else {
+                  alert("Un des code IATA n'existe pas.");
                 }
               }
               else {
-                console.log("c'est cassé");
-              }*/
+                alert("Tous les champs ne sont pas remplis.");
+              }
 
-
-              console.log("sauvegarde");
             }
+
 
 
 
@@ -372,11 +382,11 @@
               labelCompagnie.textContent = "Compagnie : ";
               let compagnie = document.createElement("input");
               compagnie.className = 'ajout_modif';
-              compagnie.id = "Titre";
+              compagnie.id = "Compagnie";
               compagnie.type = "text";
 
               let labelAD = document.createElement("label");
-              labelAD.textContent = "Aéroport départ/ IATA : ";
+              labelAD.textContent = "IATA de départ : ";
               let aeroportD = document.createElement("input");
               aeroportD.className = 'ajout_modif';
               aeroportD.id = "AD";
@@ -398,7 +408,7 @@
 
 
               let labelAA = document.createElement("label");
-              labelAA.textContent = "Aéroport arrivée/ IATA : ";
+              labelAA.textContent = "IATA d'arrivée: ";
               let aeroportA = document.createElement("input");
               aeroportA.className = 'ajout_modif';
               aeroportA.id = "AA";
@@ -430,7 +440,7 @@
               num.type = "text";
 
               let labelPaysD = document.createElement("label");
-              labelPaysD.textContent = "Pays départ : ";
+              labelPaysD.textContent = "Code pays départ : ";
               let PaysD = document.createElement("input");
               PaysD.className = 'ajout_modif';
               PaysD.id = "PD";
@@ -452,7 +462,7 @@
 
 
               let labelPaysA = document.createElement("label");
-              labelPaysA.textContent = "Pays arrivée : ";
+              labelPaysA.textContent = "Code pays arrivée : ";
               let PaysA = document.createElement("input");
               PaysA.className = 'ajout_modif';
               PaysA.id = "PA";
@@ -481,7 +491,7 @@
               ajouter.id = "ajouter";
               ajouter.type = "button";
               ajouter.value = "Ajouter le vol";
-              //ajouter.addEventListener("click", ajouterTache);
+              ajouter.addEventListener("click", ajouterVol);
 
               colonneGauche.append(labelCompagnie, compagnie,
                 labelAD, aeroportD, labelVD, VilleD, labelDD, DateD,
@@ -496,27 +506,62 @@
               zone.append(colonneGauche, colonneDroite, ligneBouton);
             }
 
-            /*async function ajouterTache() {
-              let zone = document.querySelector('#currenttask');
-              let url = 'http://127.0.0.1:5000/todo/api/v1.0/tasks';
-              let titre = document.querySelector('#Titre').value;
-              let description = document.querySelector('#Description').value;
-              let finie = document.querySelector('#Done').checked;
-              let response = await fetch(url, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
-                  title: titre,
-                  description: description,
-                  done: finie
-                })
-              });
-              if (response.ok) {
-                alert("Tâche ajoutée !");
-                taches();
-                zone.innerHTML = "";
-              } else {
-                alert("Erreur lors de l'ajout");
+            async function ajouterVol() {
+              let num = document.getElementById('Num').value;
+              let compagnie = document.getElementById('Compagnie').value;
+              let IATAD = document.getElementById('AD').value;
+              let IATAA = document.getElementById('AA').value;
+              let villeD = document.getElementById('VD').value;
+              let villeA = document.getElementById('VA').value;
+              let paysD = document.getElementById('PD').value;
+              let paysA = document.getElementById('PA').value;
+              let terminalD = document.getElementById('TD').value;
+              let terminalA = document.getElementById('TA').value;
+              let dateD = document.getElementById('DD').value;
+              let dateA = document.getElementById('DA').value;
+              let heureD = document.getElementById('HD').value;
+              let heureA = document.getElementById('HA').value;
+
+              let aeroportDVoulu = await aeroport(IATAD);
+              let aeroportAVoulu = await aeroport(IATAA);
+              if (num && compagnie && IATAD && IATAA && villeD && villeA && paysD && paysA && terminalD && terminalA && dateD && dateA && heureD && heureA) {
+                if (aeroportDVoulu && aeroportAVoulu) {
+                  if ((aeroportDVoulu.CodeIATA === IATAD && aeroportDVoulu.CodePays === paysD && aeroportDVoulu.ville === villeD) &&
+                    (aeroportAVoulu.CodeIATA === IATAA && aeroportAVoulu.CodePays === paysA && aeroportAVoulu.ville === villeA)) {
+                    let response = await fetch(`http://127.0.0.1:5000/api/vols/`, {
+                      method: 'POST', headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        Compagnie: compagnie,
+                        numVol: num,
+                        dateheureDep: dateD + "T" + heureD,
+                        dateheureArr: dateA + "T" + heureA,
+                        terminalDep: terminalD,
+                        terminalArr: terminalA,
+                        depart: IATAD,
+                        arriver: IATAA,
+                      })
+                    });
+                    if (response.ok) {
+                      alert("Vol ajouté !");
+                      afficherVols();
+                    } else {
+                      alert("Erreur lors de l'ajout");
+                    }
+                  }
+                  else {
+                    alert("Une des informations concernant le pays ou la ville d'un aéroport ne correspond pas à la réalité");
+                  }
+                }
+                else {
+                  alert("Un des code IATA n'existe pas.");
+                }
+
               }
-            }*/
+              else {
+                alert("Tous les champs ne sont pas remplis.");
+              }
+
+            }
           })
 
         </script>

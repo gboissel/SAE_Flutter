@@ -13,8 +13,8 @@ def syncdb():
 
     vol = Vols(Compagnie= 'Air France',
                numVol = 134,
-               dateheureDep = datetime.fromtimestamp(int('1773663528')),
-               dateheureArr=datetime.fromtimestamp(int('1773749928')),
+               dateheureDep = datetime.fromtimestamp(1773663528),
+               dateheureArr = datetime.fromtimestamp(1773749928),
                terminalDep = 1,
                terminalArr = 2, 
                depart = aer1.CodeIATA, arriver = aer2.CodeIATA)

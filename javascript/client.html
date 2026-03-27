@@ -328,7 +328,7 @@
 
               let aeroportDVoulu = await aeroport(IATAD)
               console.log(await aeroport(IATAD));
-              console.log(`{ CodeIATA: ${IATAD}, nomAeroport: ${aeroportDVoulu.nomAeroport}, CodePays: ${paysD}, ville: ${villeD} }`);
+              /*console.log(`{ CodeIATA: ${IATAD}, nomAeroport: ${aeroportDVoulu.nomAeroport}, CodePays: ${paysD}, ville: ${villeD} }`);
               if (aeroportDVoulu.CodeIATA === IATAD && aeroportDVoulu.CodePays === paysD && aeroportDVoulu.ville === villeD) {
                 let response = await fetch(url, {
                   method: 'PUT', headers: { 'Content-Type': 'application/json' },
@@ -352,7 +352,7 @@
               }
               else {
                 console.log("c'est cassé");
-              }
+              }*/
 
 
               console.log("sauvegarde");

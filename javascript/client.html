@@ -35,7 +35,7 @@
                 let ul = document.createElement("ul");
                 ul.className = "listeVols";
                 console.log(data);
-                for (vol of data) {
+                for (let vol of data) {
 
                   let li = document.createElement("li");
                   li.className = 'Vol';
@@ -45,49 +45,49 @@
                   liNumCompagnie.className = "textevol";
                   liNumCompagnie.textContent = "N°" + vol["numVol"] + " - " + vol["Compagnie"];
 
-                  let aeroDepart= await aeroport(vol["depart"]);
-                  let aeroArrivee= await aeroport(vol["arriver"]);
+                  let aeroDepart = await aeroport(vol["depart"]);
+                  let aeroArrivee = await aeroport(vol["arriver"]);
 
                   let liVilles = document.createElement("li");
                   liVilles.className = "textevol";
-                  liVilles.textContent =` ${aeroDepart.ville} (${aeroDepart.CodePays}) - ${aeroArrivee.ville} (${aeroArrivee.CodePays}) `;
+                  liVilles.textContent = ` ${aeroDepart.ville} (${aeroDepart.CodePays}) - ${aeroArrivee.ville} (${aeroArrivee.CodePays}) `;
 
                   let liDepart = document.createElement("li");
                   liDepart.className = "textevol";
-                  liDepart.textContent = "Départ :" + 
-                  new Date(vol.dateheureDep).toLocaleString('fr-FR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  }).replace(',', ' à').replace(':', 'h') 
-                  + ", " + vol["depart"]  + ", " + vol["terminalDep"];
+                  liDepart.textContent = "Départ :" +
+                    new Date(vol.dateheureDep).toLocaleString('fr-FR', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    }).replace(',', ' à').replace(':', 'h')
+                    + ", " + vol["depart"] + ", " + vol["terminalDep"];
 
                   let liArrivee = document.createElement("li");
                   liArrivee.className = "textevol";
-                  liArrivee.textContent = "Arrivée :"+ 
-                   new Date(vol.dateheureArr).toLocaleString('fr-FR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  }).replace(',', ' à').replace(':', 'h')+", " + vol["arriver"]  + ", " + vol["terminalArr"];
+                  liArrivee.textContent = "Arrivée :" +
+                    new Date(vol.dateheureArr).toLocaleString('fr-FR', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    }).replace(',', ' à').replace(':', 'h') + ", " + vol["arriver"] + ", " + vol["terminalArr"];
 
                   let boutonSupp = document.createElement("input");
                   boutonSupp.id = "Supp";
                   boutonSupp.className = "BoutonVol";
                   boutonSupp.type = "button";
                   boutonSupp.value = "Supp";
-                  //boutonSupp.addEventListener("click", suppVol);
+                  boutonSupp.addEventListener("click",() => suppVol(vol));
 
                   let boutonModif = document.createElement("input");
                   boutonModif.className = "BoutonVol";
                   boutonModif.id = "Modif";
                   boutonModif.type = "button";
                   boutonModif.value = "Modif";
-                  boutonModif.addEventListener("click", () => modifVol(i));
+                  boutonModif.addEventListener("click", () => modifVol(vol));
 
                   let divBoutons = document.createElement("div");
                   divBoutons.style.display = "flex";
@@ -123,8 +123,21 @@
               if (response.ok) {
                 let data = await response.json();
                 return data;
-            }};
+              }
+            };
 
+            async function suppVol(vol) {
+                /*let url = `http://127.0.0.1:5000/api/vols/${vol.depart}/${vol.numVol}/${vol.dateheureDep}`
+                let response = await fetch(url, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } });
+                if (response.ok) {
+                  alert("Vol Supprimé !");
+                  afficherVols();
+                } else {
+                  alert("Erreur lors de la suppression");
+                }*/
+               console.log(vol);
+              }
+      
 
 
             if (btnVols) {
@@ -310,26 +323,9 @@
                           alert("Erreur lors de la sauvegarde");
                         }
                       }
+            */
+
             
-            
-                      async function supprimer() {
-                        let zone = document.querySelector('#currenttask');
-                        let titre = document.querySelector('#Titre');
-                        if (titre) {
-                          let url = document.querySelector('#ID').value;C 
-                          let response = await fetch(url, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } });
-                          if (response.ok) {
-                            alert("Tâche Supprimée !");
-                            zone.innerHTML = "";
-                            taches();
-                          } else {
-                            alert("Erreur lors de la suppression");
-                          }
-                        }
-                        else {
-                          alert("Veuillez séléctionner une tâche d'abord");
-                        }
-                      }*/
 
             async function creerVol() {
               let zone = document.querySelector('#vols');

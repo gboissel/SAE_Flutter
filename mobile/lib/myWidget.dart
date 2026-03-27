@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import './api/api.dart';
 import './UI/DetailsVol.dart';
 
-class MyWidget extends StatelessWidget {
-  final api = MyAPI();
+class MyWidget extends StatefulWidget {
 
-  MyWidget({super.key});
+  const MyWidget({super.key});
+
+  @override
+  State<MyWidget> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  final api = MyAPI();
 
   String _twoDigits(int value) {
     return value.toString().padLeft(2, '0');

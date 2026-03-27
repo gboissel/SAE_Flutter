@@ -18,3 +18,7 @@ vols_models = api.model("Vols",{
     "depart":fields.String,
     "arriver":fields.String
 })
+
+destination_model = api.model("Destination", {
+    "ville": fields.String,
+})

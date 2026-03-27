@@ -1,3 +1,4 @@
+from flask import request
 from flask_restx import Resource, Namespace
 from .api_model import *
 # creation du namespace, racine de tous les endpoints
@@ -47,3 +48,18 @@ class AeroportCollections(Resource):
     def put(self):
         """modifie un aéropot"""
         pass
+
+
+@ns.route("/destinations")
+class DestinationsCollections(Resource):
+    @ns.marshal_list_with(destination_model)
+    def get(self):
+        """Récupère les destinations possibles selon le nombre d'escales"""
+        ville_depart = request.args.get('ville', 'Paris')
+        code_pays = request.args.get('pays', 'FR')
+        escales = request.args.get('escales', '0')
+
+        if escales not in {'0', '1', '2', 'all'}:
+            escales = '0'
+
+        return get_destinations_by_escales(ville_depart, code_pays, escales)

@@ -1,6 +1,6 @@
 from .extensions import db
 from .models import Aeroport, Vols
-from .myapp import app
+from .app import app
 from datetime import datetime
 
 @app.cli.command()

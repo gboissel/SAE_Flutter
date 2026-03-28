@@ -29,9 +29,9 @@ flask run
 à faire
 
 ## API
-
+Nous avons utiliser une API restX pour gérée le le backend de notre application
 ### Modèle relationnel
-~Ajouter une image du modèle~
+[MCD](MCD.png)
 ### Annexe des Routes
 #### Gestion des Aéroports
  
@@ -103,8 +103,13 @@ suppression d'un vol
 curl -X DELETE http://localhost:5000/api/vols/AF/42/1710835200/
 ```
 
+### Test de l'API
+pas encore fait à venir
+
+
 ## SPA
 ### Routage
 
 
 ## BD
+

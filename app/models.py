@@ -47,7 +47,10 @@ def create_vols(Compagnie,numVol,dateheureDep,dateheureArr,terminalDep,terminalA
     db.session.commit()
     return vol
 
-def modif_vol(Compagnie,numVol,dateheureDep,dateheureArr,terminalDep,terminalArr,depart,arriver):
+
+def modif_vol(CompagnieO, numVolO, dateheureDepO, Compagnie, numVol,
+              dateheureDep, dateheureArr, terminalDep, terminalArr, depart,
+              arriver):
     """
     Récupère l'instance correspondante aux paramètres de la clé primaire (Compagnie,numVol,dateheureDep)
     puis la modifie avec les valeur des autre paramètre  (dateheureArr,terminalDep,terminalArr,depart,arriver)
@@ -61,13 +64,18 @@ def modif_vol(Compagnie,numVol,dateheureDep,dateheureArr,terminalDep,terminalArr
         depart (str): CodeIATA de l'aéroport de départ
         arriver (str):  CodeIATA de l'aéroport de arriver
     """
-    vol = Vols.query.get((Compagnie,numVol,dateheureDep))
-    vol.dateheureArr = dateheureArr
+    dt_dep_origine = datetime.fromtimestamp(dateheureDepO / 1000.0)
+    vol = Vols.query.get((CompagnieO, numVolO, dt_dep_origine))
+    vol.Compagnie = Compagnie
+    vol.numVol = numVol
+    vol.dateheureDep = datetime.fromtimestamp(dateheureDep / 1000.0)
+    vol.dateheureArr = datetime.fromtimestamp(dateheureArr / 1000.0)
     vol.terminalDep = terminalDep
     vol.terminalArr = terminalArr
     vol.depart = depart
     vol.arriver = arriver
-    db.commit()
+    db.session.commit()
+    return vol
 
 def delete_vol(Compagnie,numVol,dateheureDep):
     vol = Vols.query.get((Compagnie,numVol,datetime.fromtimestamp(dateheureDep / 1000.0)))

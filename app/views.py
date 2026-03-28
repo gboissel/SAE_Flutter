@@ -45,6 +45,9 @@ class VolItem(Resource):
     def put(self,Compagnie,numVol,dateheureDep):
         """modifie un vols"""
         vol = modif_vol(Compagnie,numVol,dateheureDep,
+                    ns.payload["Compagnie"],
+                    ns.payload["numVol"],
+                    ns.payload["dateheureDep"],
                     ns.payload["dateheureArr"],
                     ns.payload["terminalDep"],
                     ns.payload["terminalArr"],

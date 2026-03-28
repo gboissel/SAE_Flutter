@@ -26,8 +26,8 @@ class VolsCollections(Resource):
         return vol,201
 
 
-@ns.route("/vols/<string:CodeIATA>/<int:numVol>/<int:dateheureDep>")
-class VolItem():
+@ns.route("/vols/<string:Compagnie>/<int:numVol>/<int:dateheureDep>/")
+class VolItem(Resource):
 
     @ns.marshal_with(vols_model)
     @ns.response(404,"Vol not found")
@@ -75,7 +75,7 @@ class AeroportCollections(Resource):
         return aero,201
 
 
-@ns.route("/aeroport/<int:CodeIATA>")
+@ns.route("/aeroport/<int:CodeIATA>/")
 class AeroportItem(Resource):
     @ns.marshal_with(aeroport_model)
     @ns.response(404,"Aeroport not found")

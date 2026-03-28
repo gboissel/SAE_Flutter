@@ -26,7 +26,6 @@ class VolsCollections(Resource):
         return vol,201
 
 
-
 @ns.route("/vols/<string:CodeIATA>/<int:numVol>/<int:dateheureDep>")
 class VolItem():
 
@@ -60,8 +59,6 @@ class VolItem():
         delete_vol(Compagnie,numVol,dateheureDep)
         return {}, 204
     
-        
-
 
 @ns.route("/aeroport/")
 class AeroportCollections(Resource):
@@ -102,4 +99,3 @@ class AeroportItem(Resource):
     def delete(self,CodeIATA):
         delete_aeroport(CodeIATA)
         return {}, 204
-    

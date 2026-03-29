@@ -1,3 +1,13 @@
+/**
+ * Affiche le formulaire de modification pré-rempli avec les données d'un vol.
+ * @async
+ * @function modifVol
+ * @param {Object} vol - L'objet vol contenant les données actuelles (provenant de l'API).
+ * @param {string} vol.Compagnie - Nom de la compagnie.
+ * @param {string} vol.numVol - Numéro du vol.
+ * @param {string} vol.dateheureDep - String ISO (ex: "2023-10-27T10:30").
+ * @returns {Promise<void>}
+ */
 async function modifVol(vol) {
     const divVols = document.getElementById("vols");
     const titre = document.getElementById("titre");
@@ -164,6 +174,15 @@ async function modifVol(vol) {
 
 }
 
+/**
+ * Récupère les nouvelles saisies, les valide et met à jour le vol via une requête PUT.
+ * @async
+ * @function sauvegarderVol
+ * @param {string} CompagnieOrigine - Utilisé pour identifier le vol dans l'URL de l'API.
+ * @param {string} numVolOrigine - Utilisé pour identifier le vol dans l'URL de l'API.
+ * @param {string} DDHOrigine - Utilisé pour identifier le vol dans l'URL de l'API.
+ * @returns {Promise<void>}
+ */
 async function sauvegarderVol(CompagnieOrigine, numVolOrigine, DDHOrigine) {
     let num = document.getElementById('Num').value;
     let compagnie = document.getElementById('Compagnie').value;
@@ -201,12 +220,7 @@ async function sauvegarderVol(CompagnieOrigine, numVolOrigine, DDHOrigine) {
                 });
                 if (response.ok) {
                     alert("Vol mis à jour !");
-                    console.log("Type de afficherVols :", typeof afficherVols);
-                    if (typeof afficherVols === "function") {
-                        await afficherVols();
-                    } else {
-                        console.error("La fonction afficherVols n'est pas accessible ici !");
-                    }
+                    await afficherVols();
                 } else {
                     alert("Erreur lors de la modification");
                 }

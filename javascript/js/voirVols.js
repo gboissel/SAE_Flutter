@@ -1,3 +1,9 @@
+/**
+ * Récupère la liste des vols depuis l'API et les affiche dynamiquement dans la page.
+ * Pour chaque vol, la fonction récupère aussi les détails des aéroports (ville, pays).
+ * * @async
+ * @function afficherVols
+ */
 async function afficherVols() {
   const divVols = document.getElementById("vols");
   const titre = document.getElementById("titre");
@@ -5,7 +11,6 @@ async function afficherVols() {
   let response = await fetch(url);
   if (response.ok) {
     let data = await response.json();
-    console.log("Données reçues de l'API :", data);
     divVols.innerHTML = "";
     titre.textContent = "Tous les vols";
     let ul = document.createElement("ul");

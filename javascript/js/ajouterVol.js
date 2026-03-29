@@ -1,3 +1,8 @@
+/**
+ * Génère et affiche le formulaire de création d'un nouveau vol dans le DOM.
+ * Vide la section principale et remplace le contenu par des champs de saisie organisés en deux colonnes.
+ * * @function creerVol
+ */
 async function creerVol() {
     const divVols = document.getElementById("vols");
     const titre = document.getElementById("titre");
@@ -58,6 +63,14 @@ async function creerVol() {
     divVols.append(colonneGauche, colonneDroite, ligneBouton);
 }
 
+/**
+ * Récupère les valeurs du formulaire, valide la cohérence des données 
+ * auprès de l'API aéroport, puis enregistre le vol via une requête POST.
+ * * @async
+ * @function ajouterVol
+ * @throws {Error} En cas de problème réseau avec l'API.
+ * @returns Affiche une alerte de succès ou d'erreur.
+ */
 async function ajouterVol() {
     let num = document.getElementById('Num').value;
     let compagnie = document.getElementById('Compagnie').value;

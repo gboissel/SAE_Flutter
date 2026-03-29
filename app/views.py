@@ -14,7 +14,7 @@ class VolsCollections(Resource):
     @ns.marshal_with(vols_model)
     @ns.expect(vols_input_model)
     def post(self):
-        """Créer un nouveau vols"""
+        """Crée un nouveau vols"""
         vol = create_vols(ns.payload["Compagnie"],
                     ns.payload["numVol"],
                     ns.payload["dateheureDep"],
@@ -32,7 +32,7 @@ class VolItem(Resource):
     @ns.marshal_with(vols_model)
     @ns.response(404,"Vol not found")
     def get(self,Compagnie,numVol,dateheureDep):
-        """Récccupère un vol en fonction à partir de sa clée"""
+        """Récupère un vol à partir de sa compagnie, son numéro de vol et la date de départ"""
         vol = get_vol(Compagnie,numVol,dateheureDep)
         if vol is None:
             abort(404,"Vol not found")
@@ -42,7 +42,7 @@ class VolItem(Resource):
     @ns.expect(vols_input_model)
     @ns.response(404,"Vol not found")
     def put(self,Compagnie,numVol,dateheureDep):
-        """modifie un vols"""
+        """Modifie les information du vol à partir de sa compagnie, son numéro de vol et la date de départ"""
         vol = modif_vol(Compagnie,numVol,dateheureDep,
                     ns.payload["dateheureArr"],
                     ns.payload["terminalDep"],
@@ -55,7 +55,7 @@ class VolItem(Resource):
 
     @ns.marshal_with(vols_model)
     def delete(self,Compagnie,numVol,dateheureDep):
-        """Supprime un vols"""
+        """Supprime le vol identifier à partir de sa compagnie, son numéro de vol et la date de départ"""
         delete_vol(Compagnie,numVol,dateheureDep)
         return {}, 204
     
@@ -64,7 +64,7 @@ class VolItem(Resource):
 class AeroportCollections(Resource):
     @ns.marshal_list_with(aeroport_model)
     def get(self):
-        """ Réccupère l'ensemble des aéroports """
+        """ Récupère l'ensemble des aéroports """
         return get_all_aeroport()
     
     @ns.marshal_with(aeroport_model)
@@ -75,12 +75,12 @@ class AeroportCollections(Resource):
         return aero,201
 
 
-@ns.route("/aeroport/<int:CodeIATA>/")
+@ns.route("/aeroport/<string:CodeIATA>/")
 class AeroportItem(Resource):
     @ns.marshal_with(aeroport_model)
     @ns.response(404,"Aeroport not found")
     def get(self,CodeIATA):
-        """Réccupère un Aeroport"""
+        """Récupère un Aeroport"""
         aero = get_aeroport(CodeIATA)
         if aero is None:
             abort(404,"Aeroport not found")
@@ -89,7 +89,7 @@ class AeroportItem(Resource):
     @ns.marshal_with(aeroport_model)
     @ns.expect(aeroport_input_model)
     def put(self,CodeIATA):
-        """modifie un aéropot"""
+        """Modifie l'aéropot identifier par son Code IATA"""
         aero = modif_aeroport(CodeIATA)
         if aero is None:
             abort(404,"Aeroport not found")
@@ -97,5 +97,6 @@ class AeroportItem(Resource):
     
     @ns.marshal_with(aeroport_model)
     def delete(self,CodeIATA):
+        """Supprime l'aéropot identifier par son Code IATA"""
         delete_aeroport(CodeIATA)
         return {}, 204

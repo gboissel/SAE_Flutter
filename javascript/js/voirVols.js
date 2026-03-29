@@ -41,7 +41,7 @@ async function afficherVols() {
                       hour: '2-digit',
                       minute: '2-digit'
                     }).replace(',', ' à').replace(':', 'h')
-                    + ", " + vol["depart"] + ", " + vol["terminalDep"];
+                    + ", " + aeroDepart.nomAeroport + ", " + vol["terminalDep"];
 
       let liArrivee = document.createElement("li");
       liArrivee.className = "texteVol";
@@ -51,7 +51,7 @@ async function afficherVols() {
                       year: 'numeric',
                       hour: '2-digit',
                       minute: '2-digit'
-                    }).replace(',', ' à').replace(':', 'h') + ", " + vol["arriver"] + ", " + vol["terminalArr"];
+                    }).replace(',', ' à').replace(':', 'h') + ", " + aeroArrivee.nomAeroport + ", " + vol["terminalArr"];
 
       let boutonSupp = document.createElement("input");
       boutonSupp.id = "Supp"; 

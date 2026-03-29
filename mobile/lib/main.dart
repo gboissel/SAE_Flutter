@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'myWidget.dart';
+import 'package:provider/provider.dart';
+import 'home.dart';
+import 'theme/style.dart';
+import 'viewmodels/volViewModel.dart';
 
 
 void main() {
@@ -11,9 +14,14 @@ class MyTD2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'TD2',
-      home: MyWidget(),
+    return ChangeNotifierProvider(
+      create: (_) => VolViewModel(),
+      child: MaterialApp(
+        title: 'TD2',
+        debugShowCheckedModeBanner: false,
+        theme: AppStyle.themeLight,
+        home: const Home(),
+      ),
     );
   }
 }

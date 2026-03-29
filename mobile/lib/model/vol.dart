@@ -21,7 +21,16 @@ class Vol {
 
 
   static Vol fromJson(Map<String,dynamic> json){
-    return Vol(compagnie: json['Compagnie'],numVol: json['numVol'], dateheureDep: DateTime.parse(json['dateheureDep']), dateheureArr: DateTime.parse(json['dateheureArr']), terminalDep: json['terminalDep'],
-        terminalArr: json['terminalArr'] , departIATA: json['depart'], arriverIATA: json['arriver']);
+    return Vol(
+      compagnie: json['Compagnie'],
+      numVol: json['numVol'],
+      dateheureDep: DateTime.parse(json['dateheureDep']),
+      dateheureArr:
+          json['dateheureArr'] != null ? DateTime.parse(json['dateheureArr']) : null,
+      terminalDep: json['terminalDep'],
+      terminalArr: json['terminalArr'],
+      departIATA: json['depart'],
+      arriverIATA: json['arriver'],
+    );
   }
 }

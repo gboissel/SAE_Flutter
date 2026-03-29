@@ -41,5 +41,6 @@ vols_input_model = api.model("VolInput",{
 })
 
 destination_model = api.model("Destination", {
+    "codeIATA": fields.String,
     "ville": fields.String,
 })

@@ -1,23 +1,26 @@
 import 'dart:convert';
 import '../model/vol.dart';
+import '../model/aeroport.dart';
 import 'package:http/http.dart' as http;
 
-
 class MyAPI {
-  Future<List<Vol>> getVol() async{
-    await Future.delayed(const Duration(seconds: 1));
-    final dataString = await http.get(Uri.parse('http://127.0.0.1:5000/api/vols'));
-    if (dataString.statusCode==200){
+  Future<List<Vol>> getVol() async {
+    final response = await http.get(Uri.parse('http://127.0.0.1:5000/api/vols/'));
+    if (response.statusCode == 200) {
+      final List<dynamic> json = jsonDecode(response.body);
+      return json.map((e) => Vol.fromJson(e)).toList();
+    } else {
+      throw Exception('Fail to load vols');
+    }
+  }
 
-      final List<dynamic> json = jsonDecode(dataString.body);
-
-      final vols = <Vol>[];
-      for(var element in json){
-        vols.add(Vol.fromJson(element));
-      }
-      return vols;
-    }else{
-      throw Exception('Fail');
+  Future<List<Aeroport>> getAeroports() async {
+    final response = await http.get(Uri.parse('http://127.0.0.1:5000/api/aeroport/'));
+    if (response.statusCode == 200) {
+      final List<dynamic> json = jsonDecode(response.body);
+      return json.map((e) => Aeroport.fromJson(e)).toList();
+    } else {
+      throw Exception('Fail to load aeroports');
     }
   }
 

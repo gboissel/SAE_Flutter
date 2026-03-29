@@ -93,7 +93,7 @@ def get_destinations_by_escales(ville_depart='Paris', code_pays='FR', escales='0
     if escales == '0':
         query = text(
             """
-            select distinct A2.ville
+            select distinct A2.CodeIATA, A2.ville
             from vols V
             join aeroport A1 on V.depart = A1.CodeIATA
             join aeroport A2 on V.arriver = A2.CodeIATA
@@ -103,7 +103,7 @@ def get_destinations_by_escales(ville_depart='Paris', code_pays='FR', escales='0
     elif escales == '1':
         query = text(
             """
-            select distinct A3.ville
+            select distinct A3.CodeIATA, A3.ville
             from vols V1
             join aeroport A1 on V1.depart = A1.CodeIATA
             join aeroport A2 on V1.arriver = A2.CodeIATA
@@ -116,7 +116,7 @@ def get_destinations_by_escales(ville_depart='Paris', code_pays='FR', escales='0
     elif escales == '2':
         query = text(
             """
-            select distinct A4.ville
+            select distinct A4.CodeIATA, A4.ville
             from vols V1
             join aeroport A1 on V1.depart = A1.CodeIATA
             join aeroport A2 on V1.arriver = A2.CodeIATA
@@ -138,14 +138,14 @@ def get_destinations_by_escales(ville_depart='Paris', code_pays='FR', escales='0
                 join aeroport A1 on V.depart = A1.CodeIATA
                 join aeroport A2 on V.arriver = A2.CodeIATA
                 where A1.ville = :ville_depart and A1.CodePays = :code_pays
-                union
+                union all
                 select A_dest.CodeIATA, A_dest.ville, V_suiv.dateheureArr
                 from Trajets T
                 join vols V_suiv on V_suiv.depart = T.code_iata
                 join aeroport A_dest on V_suiv.arriver = A_dest.CodeIATA
                 where V_suiv.dateheureDep > T.heure_arriver
             )
-            select distinct ville_actuelle as ville from Trajets
+            select distinct code_iata as CodeIATA, ville_actuelle as ville from Trajets
             """
         )
     else:
@@ -156,4 +156,4 @@ def get_destinations_by_escales(ville_depart='Paris', code_pays='FR', escales='0
         {'ville_depart': ville_depart, 'code_pays': code_pays},
     )
 
-    return [{'ville': row[0]} for row in result]
+    return [{'codeIATA': row[0], 'ville': row[1]} for row in result]

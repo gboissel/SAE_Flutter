@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Vos tâches</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header id="header">
+    <input id="all" type="button" value="Voir tous les vols" onclick="afficherVols()" />
+    <h3 id="titre"></h3>
+    <input id="add" type="button" value="Ajouter un vol" onclick="creerVol()" />
+  </header>
+
+  <div id='main'>
+    <nav id="nav1">
+      <div id="vols"></div>
+    </nav>
+  </div>
+<script src="js/utils.js"></script>
+<script src="js/voirVols.js"></script>
+<script src="js/ajouterVol.js"></script>
+<script src="js/modifierVol.js"></script>
+<script src="js/supprimerVol.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const btnVols = document.getElementById("all");
+    const btnAdd = document.getElementById("add");
+
+    if (btnVols) btnVols.addEventListener("click", afficherVols);
+    if (btnAdd) btnAdd.addEventListener("click", creerVol);
+    
+    afficherVols(); 
+  });
+</script>
+</body>
+</html>

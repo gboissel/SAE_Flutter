@@ -1,0 +1,13 @@
+__pycache__/
+.vscode
+.env
+*.xml
+*.iml
+*.pdf
+instance/
+mobile/.dart_tool
+mobile/.idea
+mobile/build
+mobile/ios
+mobile/macos
+mobile/android

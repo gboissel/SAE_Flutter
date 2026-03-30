@@ -139,9 +139,5 @@ Ainsi vous verrez un coverage de 77%.
 Par ailleur j'ai utilisé de l'IA dans la correction de bugs pour la création des tests. Il y avais un problème avec sqlite. Pour votre information l'erreur était due à sqlite et la manière dont il gérait ses métadonnées qui donnait des résultat faux.
 Cela empêchais la création de l'environement de test. Ce qui par conséquent empêchais l'ensemble des tests de fonctionner.  
 
-## SPA
-### Routage
-
-
 ## BD
 

@@ -1,0 +1,153 @@
+body {
+        font: 24px Menlo, Helvetica;
+        background: #ffffff;
+}
+
+#main {
+        min-height: 800px;
+        margin: 0px;
+        padding: 0px;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-flow: row;
+        flex-flow: row;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+        text-align: center;
+}
+
+#main>article {
+        margin: 4px;
+        padding: 5px;
+        border: 1px solid #ffffff;
+        border-radius: 7pt;
+        background: #ffffff;
+        -webkit-flex: 3 1 60%;
+        flex: 3 1 60%;
+        -webkit-order: 2;
+        order: 2;
+}
+
+#main>#nav1 {
+        margin: 4px;
+        padding: 5px;
+        flex-wrap: nowrap;
+        border: 1px solid #ffffff;
+        border-radius: 7pt;
+        background: #ffffff;
+        -webkit-flex: 1 6 20%;
+        flex: 1 6 20%;
+        -webkit-order: 1;
+        order: 1;
+}
+
+#vols {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 40px;
+        list-style: none;
+}
+
+#vols li {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        min-width: 350px;
+}
+
+#vols li label,
+#vols li input {
+        margin-bottom: 15px;
+        padding: 5px;
+}
+
+#vols li label {
+        margin-right: 15px;
+        font-weight: bold;
+}
+
+#conteneur-bouton {
+        flex-basis: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+}
+
+#ajouter, #modifer {
+        width: 200px;
+        padding: 10px;
+}
+
+#main>#nav2 {
+        margin: 4px;
+        padding: 5px;
+        border: 1px solid #ffffff;
+        border-radius: 7pt;
+        background: #ffffff;
+        -webkit-flex: 1 6 20%;
+        flex: 1 6 20%;
+        -webkit-order: 3;
+        order: 3;
+}
+
+header {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        background: #969494;
+        height: 80px;
+}
+
+.Vol {
+        display: flex;
+        margin: 15px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background: #b4b4b4;
+        height: 150px;
+        width: 1000px;
+}
+
+.texteVol {
+        padding-left: 50px;
+}
+
+.BoutonVol {
+        margin-top: 20px;
+        margin-left: 20px;
+        height: 40px;
+}
+#Modif{
+        background: #004aad;
+}
+
+#Supp{
+        background: #ff3131;
+}
+
+.ajout_modif{
+        background: #b4b4b4;
+}
+header>input {
+        margin: 2%;
+        padding: 0.5%;
+}
+
+.BoutonVol {
+
+        width: 100px;
+}
+
+
+header:first-letter,
+footer:first-letter {
+        font-size: 160%;
+}

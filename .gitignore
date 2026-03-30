@@ -11,3 +11,5 @@ mobile/build
 mobile/ios
 mobile/macos
 mobile/android
+htmlcov/
+.pytest_cache/

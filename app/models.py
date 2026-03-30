@@ -1,6 +1,8 @@
 from .extensions import db
+from sqlalchemy import text
 from datetime import datetime
 class Aeroport(db.Model):
+    """Modèle SQLAlchemy représentant un aéroport."""
     __tablename__='aeroport'
     CodeIATA = db.Column(db.String(5),primary_key=True)
     nomAeroport = db.Column(db.String(50))
@@ -11,6 +13,7 @@ class Aeroport(db.Model):
     vols_arriver = db.relationship("Vols",back_populates="rel_arriver",foreign_keys="Vols.arriver")
 
 class Vols(db.Model):
+    """Modèle SQLAlchemy représentant un vol."""
     __tablename__='vols'
 
     Compagnie = db.Column(db.String(50),primary_key = True)
@@ -28,16 +31,44 @@ class Vols(db.Model):
 
 # Fonctions pour les vols
 def get_all_vols():
+    """Récupère tous les vols.
+
+    Returns:
+        list[Vols]: Liste des vols enregistrés.
+    """
     return Vols.query.all()
 
 def get_vol(compagnie,numVol,dateheureDep):
-    """Renvoie le vol correspondant à l'ID demander rien sinon"""
+    """Récupère un vol à partir de sa clé primaire composite.
+
+    Args:
+        compagnie (str): Nom de la compagnie.
+        numVol (int): Numéro du vol.
+        dateheureDep (datetime | str): Date/heure de départ.
+
+    Returns:
+        Vols | None: Le vol trouvé, sinon None.
+    """
     if isinstance(dateheureDep, str):
         dateheureDep = datetime.fromisoformat(dateheureDep.replace('Z', '+00:00'))
     return Vols.query.get((compagnie,numVol,dateheureDep))
 
 def create_vols(Compagnie,numVol,dateheureDep,dateheureArr,terminalDep,terminalArr,depart,arriver):
-    """Creer une instance de Vol et l'ajoute a la BD"""
+    """Crée un vol puis l'enregistre en base de données.
+
+    Args:
+        Compagnie (str): Nom de la compagnie.
+        numVol (int): Numéro du vol.
+        dateheureDep (datetime | str): Date/heure de départ.
+        dateheureArr (datetime | str): Date/heure d'arrivée.
+        terminalDep (int): Terminal de départ.
+        terminalArr (int): Terminal d'arrivée.
+        depart (str): Code IATA de l'aéroport de départ.
+        arriver (str): Code IATA de l'aéroport d'arrivée.
+
+    Returns:
+        Vols: Le vol créé.
+    """
     if isinstance(dateheureDep, str):
         dateheureDep = datetime.fromisoformat(dateheureDep.replace('Z', '+00:00'))
     if isinstance(dateheureArr, str):
@@ -78,6 +109,16 @@ def modif_vol(CompagnieO, numVolO, dateheureDepO, Compagnie, numVol,
     return vol
 
 def delete_vol(Compagnie,numVol,dateheureDep):
+    """Supprime un vol s'il existe.
+
+    Args:
+        Compagnie (str): Nom de la compagnie.
+        numVol (int): Numéro du vol.
+        dateheureDep (datetime | str): Date/heure de départ.
+
+    Returns:
+        None: Ne retourne aucune valeur.
+    """
     vol = Vols.query.get((Compagnie,numVol,datetime.fromtimestamp(dateheureDep / 1000.0)))
     if vol is None:
         return
@@ -87,18 +128,53 @@ def delete_vol(Compagnie,numVol,dateheureDep):
 
 # Fonctions pour les Aeroport
 def get_all_aeroport():
+    """Récupère tous les aéroports.
+
+    Returns:
+        list[Aeroport]: Liste des aéroports enregistrés.
+    """
     return Aeroport.query.all()
 
 def get_aeroport(CodeIATA):
+    """Récupère un aéroport à partir de son code IATA.
+
+    Args:
+        CodeIATA (str): Code IATA de l'aéroport.
+
+    Returns:
+        Aeroport | None: L'aéroport trouvé, sinon None.
+    """
     return Aeroport.query.get(CodeIATA)
 
 def create_aeroport(CodeIATA,nomAeroport,CodePays,ville):
+    """Crée un aéroport puis l'enregistre en base de données.
+
+    Args:
+        CodeIATA (str): Code IATA de l'aéroport.
+        nomAeroport (str): Nom de l'aéroport.
+        CodePays (str): Code pays ISO.
+        ville (str): Ville de l'aéroport.
+
+    Returns:
+        Aeroport: L'aéroport créé.
+    """
     aeroport = Aeroport(CodeIATA=CodeIATA,nomAeroport=nomAeroport,CodePays=CodePays,ville=ville)
     db.session.add(aeroport)
     db.session.commit()
     return aeroport
 
 def modif_aeroport(CodeIATA,nomAeroport,CodePays,ville):
+    """Modifie un aéroport existant.
+
+    Args:
+        CodeIATA (str): Code IATA de l'aéroport à modifier.
+        nomAeroport (str): Nouveau nom de l'aéroport.
+        CodePays (str): Nouveau code pays.
+        ville (str): Nouvelle ville.
+
+    Returns:
+        None: Ne retourne aucune valeur.
+    """
     aero = get_aeroport(CodeIATA)
     if aero is None:
         return
@@ -108,8 +184,96 @@ def modif_aeroport(CodeIATA,nomAeroport,CodePays,ville):
     db.commit()
 
 def delete_aeroport(CodeIATA):
+    """Supprime un aéroport s'il existe.
+
+    Args:
+        CodeIATA (str): Code IATA de l'aéroport.
+
+    Returns:
+        None: Ne retourne aucune valeur.
+    """
     aero = Aeroport.query.get(CodeIATA)
     if aero is None:
         return
     db.session.delete(aero)
     db.session.commit()
+
+
+def get_destinations_by_escales(ville_depart='Paris', code_pays='FR', escales='0'):
+    """Retourne les destinations atteignables selon le nombre d'escales.
+
+    Args:
+        ville_depart (str): Ville de départ.
+        code_pays (str): Code pays de la ville de départ.
+        escales (str): Nombre d'escales autorisé ('0', '1', '2' ou 'all').
+
+    Returns:
+        list[dict[str, str]]: Liste de destinations avec code IATA et ville.
+    """
+    if escales == '0':
+        query = text(
+            """
+            select distinct A2.CodeIATA, A2.ville
+            from vols V
+            join aeroport A1 on V.depart = A1.CodeIATA
+            join aeroport A2 on V.arriver = A2.CodeIATA
+            where A1.ville = :ville_depart and A1.CodePays = :code_pays
+            """
+        )
+    elif escales == '1':
+        query = text(
+            """
+            select distinct A3.CodeIATA, A3.ville
+            from vols V1
+            join aeroport A1 on V1.depart = A1.CodeIATA
+            join aeroport A2 on V1.arriver = A2.CodeIATA
+            join vols V2 on V2.depart = A2.CodeIATA
+            join aeroport A3 on V2.arriver = A3.CodeIATA
+            where A1.ville = :ville_depart and A1.CodePays = :code_pays
+              and V2.dateheureDep > V1.dateheureArr
+            """
+        )
+    elif escales == '2':
+        query = text(
+            """
+            select distinct A4.CodeIATA, A4.ville
+            from vols V1
+            join aeroport A1 on V1.depart = A1.CodeIATA
+            join aeroport A2 on V1.arriver = A2.CodeIATA
+            join vols V2 on V2.depart = A2.CodeIATA
+            join aeroport A3 on V2.arriver = A3.CodeIATA
+            join vols V3 on V3.depart = A3.CodeIATA
+            join aeroport A4 on V3.arriver = A4.CodeIATA
+            where A1.ville = :ville_depart and A1.CodePays = :code_pays
+              and V2.dateheureDep > V1.dateheureArr
+              and V3.dateheureDep > V2.dateheureArr
+            """
+        )
+    elif escales == 'all':
+        query = text(
+            """
+            with recursive Trajets(code_iata, ville_actuelle, heure_arriver) as (
+                select A2.CodeIATA, A2.ville, V.dateheureArr
+                from vols V
+                join aeroport A1 on V.depart = A1.CodeIATA
+                join aeroport A2 on V.arriver = A2.CodeIATA
+                where A1.ville = :ville_depart and A1.CodePays = :code_pays
+                union all
+                select A_dest.CodeIATA, A_dest.ville, V_suiv.dateheureArr
+                from Trajets T
+                join vols V_suiv on V_suiv.depart = T.code_iata
+                join aeroport A_dest on V_suiv.arriver = A_dest.CodeIATA
+                where V_suiv.dateheureDep > T.heure_arriver
+            )
+            select distinct code_iata as CodeIATA, ville_actuelle as ville from Trajets
+            """
+        )
+    else:
+        return []
+
+    result = db.session.execute(
+        query,
+        {'ville_depart': ville_depart, 'code_pays': code_pays},
+    )
+
+    return [{'codeIATA': row[0], 'ville': row[1]} for row in result]

@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import Flask
+from flask_cors import CORS
 from .extensions import api, db
 from .views import ns
 from flask_cors import CORS

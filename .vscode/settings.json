@@ -1,0 +1,6 @@
+{
+    "dart.env": {
+        "CHROME_EXECUTABLE": "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe"
+    },
+    "cmake.sourceDirectory": "C:/Users/Utilisateur/Documents/Code/SAE/SAE_Flutter/mobile/linux"
+}

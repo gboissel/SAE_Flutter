@@ -2,7 +2,7 @@
 
 
 ## Mise en place de l'environnements de developement 
-Merci de suivre l'ordre des instructions pour être sur que l'environement fonctionnne
+Merci de suivre l'ordre des instructions pour être sûr que l'environement fonctionnne
 
 #### Mise en place de l'api
 
@@ -13,20 +13,48 @@ pip install -r requierement.txt
 cd app/
 ```
 
-ensuite on va lancer dans le terminal
+ensuite on va lancer dans le terminal cette commande :
 
 ```bash
 flask run 
 ```
 
 #### Mise en place du site web
-à faire
+Depuis la racine du projet, dans un terminal différent de celui où vous avez l'API, exécutez ces commandes : 
+
+```bash
+cd javascript/
+python -m http.server 5500
+```
+Dans un navigateur allez à l’adresse suivante pour voir la SPA : 
+
+http://localhost:5500
+
+Vous pouvez maintenant interagir avec la SPA.
 
 #### Mise en place de l'application mobile
-à faire
+Depuis la racine du projet, dans un terminal différent de celui où vous avez l'API, exécutez ces commandes : 
+
+```bash
+cd mobile/
+flutter pub get
+flutter run -d web-server --web-port 8080
+```
+Dans un navigateur allez à l’adresse suivante pour voir l'application mobile : 
+
+http://localhost:8080
+
+Vous pouvez aussi remplacer la dernière commande par celle-ci :
+
+```bash
+flutter -d chrome
+```
+Dans ce cas, une fenêtre s'ouvrira directement avec l'application.
+
+Vous pouvez maintenant voir les différents vols grâce à l'application mobile.
 
 ## API
-Nous avons utiliser une API restX pour gérée le le backend de notre application
+Nous avons utilisé une API restX pour gérer le le backend de notre application
 ### Modèle relationnel
 [MCD](MCD.png)
 ### Annexe des Routes
@@ -108,7 +136,7 @@ python -m pytest --cov=. --cov-report=term-missing tests/
 ```
 
 Ainsi vous verrez un coverage de 77%.
-Par ailleur j'ai utilisé de l'IA dans la correction de bugs pour la création des tests. Il y avais un problème avec sqlite. Pour votre information l'erreur étais due à sqlite et la manière dont il gérait ses métadonné qui donnais des résultat faux.
+Par ailleur j'ai utilisé de l'IA dans la correction de bugs pour la création des tests. Il y avais un problème avec sqlite. Pour votre information l'erreur était due à sqlite et la manière dont il gérait ses métadonnées qui donnait des résultat faux.
 Cela empêchais la création de l'environement de test. Ce qui par conséquent empêchais l'ensemble des tests de fonctionner.  
 
 ## SPA

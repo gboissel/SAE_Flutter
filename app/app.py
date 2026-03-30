@@ -5,7 +5,7 @@ from .views import ns
 from flask_cors import CORS
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/api/*": {"origins" : "*"} })
 
 # initialisation de la BD
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite3"

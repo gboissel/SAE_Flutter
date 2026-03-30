@@ -36,7 +36,7 @@ class VolsCollections(Resource):
 
 
 
-@ns.route("/vols/<string:CodeIATA>/<int:numVol>/<int:dateheureDep>")
+@ns.route("/vols/<string:Compagnie>/<int:numVol>/<int:dateheureDep>/")
 class VolItem(Resource):
 
     @ns.marshal_with(vols_model)
@@ -72,6 +72,9 @@ class VolItem(Resource):
             Vols: Le vol modifié, sinon 404.
         """
         vol = modif_vol(Compagnie,numVol,dateheureDep,
+                    ns.payload["Compagnie"],
+                    ns.payload["numVol"],
+                    ns.payload["dateheureDep"],
                     ns.payload["dateheureArr"],
                     ns.payload["terminalDep"],
                     ns.payload["terminalArr"],
@@ -96,8 +99,6 @@ class VolItem(Resource):
         delete_vol(Compagnie,numVol,dateheureDep)
         return {}, 204
     
-        
-
 
 @ns.route("/aeroport/")
 class AeroportCollections(Resource):
@@ -122,7 +123,7 @@ class AeroportCollections(Resource):
         return aero,201
 
 
-@ns.route("/aeroport/<int:CodeIATA>")
+@ns.route("/aeroport/<string:CodeIATA>/")
 class AeroportItem(Resource):
     @ns.marshal_with(aeroport_model)
     @ns.response(404,"Aeroport not found")

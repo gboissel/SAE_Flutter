@@ -78,18 +78,35 @@ def create_vols(Compagnie,numVol,dateheureDep,dateheureArr,terminalDep,terminalA
     db.session.commit()
     return vol
 
-def modif_vol(Compagnie,numVol,dateheureDep):
-    """Modifie un vol existant.
 
-    Args:
-        Compagnie (str): Nom de la compagnie.
-        numVol (int): Numéro du vol.
-        dateheureDep (datetime | str): Date/heure de départ.
-
-    Returns:
-        Vols | None: Le vol modifié si implémenté, sinon None.
+def modif_vol(CompagnieO, numVolO, dateheureDepO, Compagnie, numVol,
+              dateheureDep, dateheureArr, terminalDep, terminalArr, depart,
+              arriver):
     """
-    pass #TODO modif vol
+    Récupère l'instance correspondante aux paramètres de la clé primaire (Compagnie,numVol,dateheureDep)
+    puis la modifie avec les valeur des autre paramètre  (dateheureArr,terminalDep,terminalArr,depart,arriver)
+    Args:
+        Compagnie (str): nom de la compagnie aérienne
+        numVol (int): numéro du vol
+        dateheureDep (int): heure du départ du vol (timestamp)
+        dateheureArr (int): heure d'arriver du vol (timestamp)
+        terminalDep (int): numéro du terminal de transport
+        terminalArr (int): numéro du terminal d'arriver
+        depart (str): CodeIATA de l'aéroport de départ
+        arriver (str):  CodeIATA de l'aéroport de arriver
+    """
+    dt_dep_origine = datetime.fromtimestamp(dateheureDepO / 1000.0)
+    vol = Vols.query.get((CompagnieO, numVolO, dt_dep_origine))
+    vol.Compagnie = Compagnie
+    vol.numVol = numVol
+    vol.dateheureDep = datetime.fromtimestamp(dateheureDep / 1000.0)
+    vol.dateheureArr = datetime.fromtimestamp(dateheureArr / 1000.0)
+    vol.terminalDep = terminalDep
+    vol.terminalArr = terminalArr
+    vol.depart = depart
+    vol.arriver = arriver
+    db.session.commit()
+    return vol
 
 def delete_vol(Compagnie,numVol,dateheureDep):
     """Supprime un vol s'il existe.
@@ -102,7 +119,7 @@ def delete_vol(Compagnie,numVol,dateheureDep):
     Returns:
         None: Ne retourne aucune valeur.
     """
-    vol = Vols.query.get((Compagnie,numVol,dateheureDep))
+    vol = Vols.query.get((Compagnie,numVol,datetime.fromtimestamp(dateheureDep / 1000.0)))
     if vol is None:
         return
     db.session.delete(vol)

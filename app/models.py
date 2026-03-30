@@ -175,7 +175,7 @@ def modif_aeroport(CodeIATA,nomAeroport,CodePays,ville):
     aero.nomAeroport = nomAeroport
     aero.codePays = CodePays
     aero.ville = ville
-    db.commit()
+    db.session.commit()
 
 def delete_aeroport(CodeIATA):
     """

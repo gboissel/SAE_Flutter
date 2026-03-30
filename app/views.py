@@ -152,7 +152,8 @@ class AeroportItem(Resource):
         Returns:
             Aeroport: L'aéroport modifié, sinon 404.
         """
-        aero = modif_aeroport(CodeIATA)
+        aero = modif_aeroport(CodeIATA, ns.payload["nomAeroport"], 
+                          ns.payload["CodePays"], ns.payload["ville"])
         if aero is None:
             abort(404,"Aeroport not found")
         return aero

@@ -1,10 +1,9 @@
 import pytest
-from myapp import create_app
+from app import app as flask_app
 from extensions import db
 
 @pytest.fixture
 def app():
-    flask_app = create_app("testing")
     flask_app.config.update({
         "TESTING": True,
         "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",

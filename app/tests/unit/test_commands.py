@@ -1,6 +1,6 @@
 import pytest
-from extensions import db
-from models import Aeroport, Vols
+from app.extensions import db
+from app.models import Aeroport, Vols
 
 def test_syncdb_command(runner):
     """

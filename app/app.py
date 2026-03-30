@@ -1,9 +1,8 @@
 from flask import Flask
-from flask import Flask
-from extensions import api, db
-from views import ns
+from app.extensions import api, db
+from app.views import ns
 from flask_cors import CORS
-from commands import syncdb
+from app.commands import syncdb
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins" : "*"} })
 

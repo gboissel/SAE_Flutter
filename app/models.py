@@ -1,6 +1,7 @@
 from sqlalchemy import text
-from extensions import db
+from app.extensions import db
 from datetime import datetime
+
 class Aeroport(db.Model):
     """Modèle SQLAlchemy représentant un aéroport."""
     __tablename__='aeroport'

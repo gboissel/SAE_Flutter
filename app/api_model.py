@@ -1,5 +1,5 @@
 from flask_restx import fields
-from extensions import api
+from app.extensions import api
 
 aeroport_model = api.model("Aeroport",{
     "CodeIATA":fields.String,

@@ -1,2 +1,2 @@
-from .app import app
-from .commands import syncdb
+from app.app import app
+from app.commands import syncdb

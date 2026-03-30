@@ -1,4 +1,4 @@
-from models import *
+from app.models import *
 
 def test_aeroport_functions(app):
     # Create et Get

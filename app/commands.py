@@ -1,7 +1,7 @@
 import click
 from datetime import datetime
-from extensions import db
-from models import Aeroport, Vols
+from app.extensions import db
+from app.models import Aeroport, Vols
 
 @click.command('syncdb')
 def syncdb():

@@ -1,18 +1,20 @@
-from .extensions import db
-from .models import Aeroport, Vols
-from .app import app
+import click
 from datetime import datetime
+from extensions import db
+from models import Aeroport, Vols
 
-@app.cli.command()
+@click.command('syncdb')
 def syncdb():
-    """Réinitialise puis peuple la base de données avec des données de test.
-
-    Returns:
-        None: Ne retourne aucune valeur.
-    """
+    """Réinitialise puis peuple la base de données avec des données de test."""
+    
+    # S'assure que les tables existent (utile pour le premier lancement)
     db.create_all()
+    
+    # Nettoyage des anciennes données
     db.session.query(Vols).delete()
     db.session.query(Aeroport).delete()
+    
+    # 1. Création des Aéroports
     aeroports = [
         Aeroport(CodeIATA='ORY', nomAeroport='Orly', CodePays='FR', ville='Paris'),
         Aeroport(CodeIATA='CDG', nomAeroport='Charles de Gaulle', CodePays='FR', ville='Paris'),
@@ -31,6 +33,7 @@ def syncdb():
         Aeroport(CodeIATA='HND', nomAeroport='Tokyo Haneda', CodePays='JP', ville='Tokyo'),
     ]
 
+    # 2. Données brutes des Vols
     vols_data = [
         ('Air France', 1001, '2026-04-01T08:00:00', '2026-04-01T09:25:00', 1, 2, 'ORY', 'LHR'),
         ('Air France', 1002, '2026-04-01T11:00:00', '2026-04-01T13:20:00', 1, 2, 'LHR', 'AMS'),
@@ -59,20 +62,20 @@ def syncdb():
         ('KLM', 6602, '2026-04-16T12:10:00', '2026-04-16T13:40:00', 2, 1, 'AMS', 'ORY'),
     ]
 
+    # Transformation des données brutes en objets Vols
     vols = [
         Vols(
-            Compagnie=compagnie,
-            numVol=num_vol,
-            dateheureDep=datetime.fromisoformat(dep),
-            dateheureArr=datetime.fromisoformat(arr),
-            terminalDep=terminal_dep,
-            terminalArr=terminal_arr,
-            depart=depart,
-            arriver=arriver,
-        )
-        for compagnie, num_vol, dep, arr, terminal_dep, terminal_arr, depart, arriver in vols_data
+            Compagnie=c, numVol=n,
+            dateheureDep=datetime.fromisoformat(d),
+            dateheureArr=datetime.fromisoformat(a),
+            terminalDep=td, terminalArr=ta,
+            depart=dep, arriver=arr
+        ) for c, n, d, a, td, ta, dep, arr in vols_data
     ]
 
+    # Enregistrement en base
     db.session.add_all(aeroports)
     db.session.add_all(vols)
     db.session.commit()
+    
+    click.echo("Base de données synchronisée avec succès !")

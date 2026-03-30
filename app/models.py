@@ -1,5 +1,5 @@
-from .extensions import db
 from sqlalchemy import text
+from extensions import db
 from datetime import datetime
 class Aeroport(db.Model):
     """Modèle SQLAlchemy représentant un aéroport."""
@@ -31,10 +31,10 @@ class Vols(db.Model):
 
 # Fonctions pour les vols
 def get_all_vols():
-    """Récupère tous les vols.
-
+    """
+    Recupère tous les vols
     Returns:
-        list[Vols]: Liste des vols enregistrés.
+        list[Vols]: ensembles des vols de la base de donnée
     """
     return Vols.query.all()
 
@@ -109,17 +109,14 @@ def modif_vol(CompagnieO, numVolO, dateheureDepO, Compagnie, numVol,
     return vol
 
 def delete_vol(Compagnie,numVol,dateheureDep):
-    """Supprime un vol s'il existe.
-
-    Args:
-        Compagnie (str): Nom de la compagnie.
-        numVol (int): Numéro du vol.
-        dateheureDep (datetime | str): Date/heure de départ.
-
-    Returns:
-        None: Ne retourne aucune valeur.
     """
-    vol = Vols.query.get((Compagnie,numVol,datetime.fromtimestamp(dateheureDep / 1000.0)))
+    supprime l'instance du vol de la BD
+    Args:
+        Compagnie (str): nom de la compagnie aérienne
+        numVol (int): numéro du vol
+        dateheureDep (int): heure du départ du vol
+    """
+    vol = Vols.query.get((Compagnie,numVol,dateheureDep))
     if vol is None:
         return
     db.session.delete(vol)
@@ -128,10 +125,10 @@ def delete_vol(Compagnie,numVol,dateheureDep):
 
 # Fonctions pour les Aeroport
 def get_all_aeroport():
-    """Récupère tous les aéroports.
-
+    """
+    Récupère tout les aeroports
     Returns:
-        list[Aeroport]: Liste des aéroports enregistrés.
+        list[Aeroport]: ensembles des aéroport de la BD
     """
     return Aeroport.query.all()
 
@@ -147,16 +144,16 @@ def get_aeroport(CodeIATA):
     return Aeroport.query.get(CodeIATA)
 
 def create_aeroport(CodeIATA,nomAeroport,CodePays,ville):
-    """Crée un aéroport puis l'enregistre en base de données.
-
+    """
+    Crée une nouvelle instance d'Aeroport et l'ajoute a la BD
     Args:
-        CodeIATA (str): Code IATA de l'aéroport.
-        nomAeroport (str): Nom de l'aéroport.
-        CodePays (str): Code pays ISO.
-        ville (str): Ville de l'aéroport.
+        CodeIATA (str): le code IATA du future aéroport
+        nomAeroport (str): le nom de l'Aéroport
+        CodePays (str): le code du pays 
+        ville (str): le nom de la ville
 
     Returns:
-        Aeroport: L'aéroport créé.
+        Aeroport: l'instance de l'aeroport tout juste creer
     """
     aeroport = Aeroport(CodeIATA=CodeIATA,nomAeroport=nomAeroport,CodePays=CodePays,ville=ville)
     db.session.add(aeroport)
@@ -164,16 +161,13 @@ def create_aeroport(CodeIATA,nomAeroport,CodePays,ville):
     return aeroport
 
 def modif_aeroport(CodeIATA,nomAeroport,CodePays,ville):
-    """Modifie un aéroport existant.
-
+    """
+    Modifie une instance d'aéroport identifier par son code IATA
     Args:
-        CodeIATA (str): Code IATA de l'aéroport à modifier.
-        nomAeroport (str): Nouveau nom de l'aéroport.
-        CodePays (str): Nouveau code pays.
-        ville (str): Nouvelle ville.
-
-    Returns:
-        None: Ne retourne aucune valeur.
+        CodeIATA (str): le code IATA de l'aéroport
+        nomAeroport (str): le nouveau nom de l'Aéroport
+        CodePays (str): le nouveau  code du pays 
+        ville (str): le nouveau nom de la ville
     """
     aero = get_aeroport(CodeIATA)
     if aero is None:
@@ -181,16 +175,13 @@ def modif_aeroport(CodeIATA,nomAeroport,CodePays,ville):
     aero.nomAeroport = nomAeroport
     aero.codePays = CodePays
     aero.ville = ville
-    db.commit()
+    db.session.commit()
 
 def delete_aeroport(CodeIATA):
-    """Supprime un aéroport s'il existe.
-
+    """
+    Supprime une instance d'aeroport de la BD
     Args:
-        CodeIATA (str): Code IATA de l'aéroport.
-
-    Returns:
-        None: Ne retourne aucune valeur.
+        CodeIATA (str): le Code IATA 
     """
     aero = Aeroport.query.get(CodeIATA)
     if aero is None:

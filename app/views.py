@@ -1,8 +1,8 @@
 from flask import request
 from flask_restx import Resource, Namespace , abort
-from .api_model import *
+from api_model import *
 # creation du namespace, racine de tous les endpoints
-from .models import *
+from models import *
 ns = Namespace("api")
 
 @ns.route("/vols/")
@@ -152,13 +152,15 @@ class AeroportItem(Resource):
         Returns:
             Aeroport: L'aéroport modifié, sinon 404.
         """
-        aero = modif_aeroport(CodeIATA)
+        aero = modif_aeroport(CodeIATA, ns.payload["nomAeroport"], 
+                          ns.payload["CodePays"], ns.payload["ville"])
         if aero is None:
             abort(404,"Aeroport not found")
         return aero
     
     @ns.marshal_with(aeroport_model)
     def delete(self,CodeIATA):
+        """Supprime l'aéropot identifier par son Code IATA"""
         delete_aeroport(CodeIATA)
         return {}, 204
     

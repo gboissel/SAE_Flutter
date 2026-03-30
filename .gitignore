@@ -44,3 +44,14 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+*.pdf
+instance/
+mobile/.dart_tool
+mobile/.idea
+mobile/build
+mobile/ios
+mobile/macos
+mobile/android
+htmlcov/
+.pytest_cache/

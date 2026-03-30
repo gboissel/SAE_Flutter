@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import Flask
-from .extensions import api, db
-from .views import ns
+from extensions import api, db
+from views import ns
 from flask_cors import CORS
 
 app = Flask(__name__)

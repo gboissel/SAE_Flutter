@@ -1,7 +1,7 @@
 from flask_restx import Resource, Namespace , abort
-from .api_model import *
+from api_model import *
 # creation du namespace, racine de tous les endpoints
-from .models import *
+from models import *
 ns = Namespace("api")
 
 @ns.route("/vols/")

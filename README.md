@@ -1,19 +1,16 @@
 # SAE_Flutter
 
-Sommaire:
-
-
 
 ## Mise en place de l'environnements de developement 
 Merci de suivre l'ordre des instructions pour être sur que l'environement fonctionnne
 
 #### Mise en place de l'api
 
-dans un environement virtuel executer les commandes suivantes:  
+dans un environement virtuel (venv) executer les commandes suivantes:  
 
 ```bash
-cd app/
 pip install -r requierement.txt
+cd app/
 ```
 
 ensuite on va lancer dans le terminal
@@ -25,7 +22,7 @@ flask run
 #### Mise en place du site web
 à faire
 
-#### Mise en place du Web
+#### Mise en place de l'application mobile
 à faire
 
 ## API
@@ -104,8 +101,15 @@ curl -X DELETE http://localhost:5000/api/vols/AF/42/1710835200/
 ```
 
 ### Test de l'API
-pas encore fait à venir
+Pour tester l'API il faut se placer dans le dossier `app/`
+puis executer la commande suivante:
+```bash
+python -m pytest --cov=. --cov-report=term-missing tests/
+```
 
+Ainsi vous verrez un coverage de 77%.
+Par ailleur j'ai utilisé de l'IA dans la correction de bugs pour la création des tests. Il y avais un problème avec sqlite. Pour votre information l'erreur étais due à sqlite et la manière dont il gérait ses métadonné qui donnais des résultat faux.
+Cela empêchais la création de l'environement de test. Ce qui par conséquent empêchais l'ensemble des tests de fonctionner.  
 
 ## SPA
 ### Routage

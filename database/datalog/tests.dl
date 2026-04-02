@@ -1,0 +1,11 @@
+%tout les trajets%
+trajet(Depart, Arrivee, H_Dep, H_Arr)?
+
+%trajets directs%
+trajetP(V1, V2, HD, HA)?
+
+%trajets impairs%
+trajetI(V1, V2, HD, HA)?
+
+%trajets pairs avec escale%
+trajetP(V1, V3, HD, HA_Fin)?

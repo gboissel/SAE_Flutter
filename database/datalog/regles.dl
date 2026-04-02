@@ -1,0 +1,34 @@
+% Cas de base : Trajet direct entre deux villes
+trajet(V1, V2, HD, HA) :- 
+    vol(N, C1, C2, HD, HA), 
+    aeroport(C1, P1, V1, Nom1), 
+    aeroport(C2, P2, V2, Nom2).
+
+% Cas récursif : Trajet avec connexions
+trajet(V1, V3, HD_Init, HA_Fin) :- 
+    vol(N, C1, C2, HD_Init, HA1),
+    aeroport(C1, P1, V1, Nom1),
+    trajet(V2, V3, HD2, HA_Fin),
+    aeroport(C2, P2, V2, Nom2).
+
+% Un trajet avec 0 connexion (vol direct) est considéré "Pair" (0 est pair)
+trajetP(V1, V2, HD, HA) :- 
+    vol(N, C1, C2, HD, HA), 
+    aeroport(C1, P1, V1, Nom1), 
+    aeroport(C2, P2, V2, Nom2).
+
+% Un trajet avec un nombre IMPAIR de connexions
+% C'est un vol direct suivi d'un trajet "Pair"
+trajetI(V1, V3, HD, HA_Fin) :- 
+    vol(N, C1, C2, HD, HA1),
+    aeroport(C1, P1, V1, Nom1),
+    trajetP(V2, V3, HD2, HA_Fin),
+    aeroport(C2, P2, V2, Nom2).
+
+% Un trajet avec un nombre PAIR de connexions (plus de 0)
+% C'est un vol direct suivi d'un trajet "Impair"
+trajetP(V1, V3, HD, HA_Fin) :- 
+    vol(N, C1, C2, HD, HA1),
+    aeroport(C1, P1, V1, Nom1),
+    trajetI(V2, V3, HD2, HA_Fin),
+    aeroport(C2, P2, V2, Nom2).

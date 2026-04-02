@@ -1,15 +1,12 @@
-% --- BASE DE DONNÉES ---
-vol(af442, cdg, gig, 1300, 1900).
-equipage(af442, goscinny, pilote).
-equipage(af442, uderzo, commissaire).
-indice(af442, carbone, 3, 4).
+% --- BASE DE DONNÉES (Faits) ---
+vol(af442, cdg, gig, 1300, 1900). [cite: 1]
+vol(af100, cdg, lhr, 0800, 1000).
+vol(ba200, lhr, jfk, 1400, 2200).
+vol(ua300, jfk, lax, 2300, 0400).
 
-% --- RÈGLES ---
-% Trouver tous les pilotes de la base
-liste_pilotes(Nom) :- equipage(Vol, Nom, pilote).
-
-% Trouver les vols qui ont un indice carbone
-vol_polluant(V) :- indice(V, carbone, P1, P2).
-
-% --- REQUÊTE (À copier-coller dans l'outil) ---
-% liste_pilotes(X)?
+% Ajout des aéroports pour lier les codes aux villes 
+aeroport(cdg, france, paris, charles_de_gaulle). [cite: 5]
+aeroport(gig, bresil, rio, galeao). [cite: 5]
+aeroport(lhr, uk, londres, heathrow). [cite: 5]
+aeroport(jfk, usa, new_york, john_f_kennedy). [cite: 5]
+aeroport(lax, usa, los_angeles, los_angeles_intl). [cite: 5]
